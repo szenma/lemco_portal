@@ -1,0 +1,111 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css">
+<script>document.body.classList.add('lp-website-body');</script>
+
+<div class="lp-topbar">
+	<div class="lp-brand">LEMCO <small>PORTAL</small></div>
+	<div class="lp-ext-links">
+		<a href="https://www.lemco.gr" target="_blank" rel="noopener">Lemco website</a>
+		<a href="https://www.fleex.gr" target="_blank" rel="noopener">Fleex website</a>
+	</div>
+</div>
+
+<div class="lp-auth-wrap" style="max-width:560px;">
+	<div class="lp-auth-card">
+		<h1>Create your account</h1>
+		<p class="lp-sub">Tell us about you and your company. We'll email you once your account is approved.</p>
+
+		<div class="lp-form-msg" id="lp-signup-msg"></div>
+
+		<form id="lp-signup-form">
+			<div class="lp-section-label">Your details</div>
+			<div class="lp-form-2col">
+				<div class="lp-field"><label>Name *</label><input id="first_name" required></div>
+				<div class="lp-field"><label>Surname *</label><input id="last_name" required></div>
+			</div>
+			<div class="lp-form-2col">
+				<div class="lp-field"><label>Email *</label><input type="email" id="email" required></div>
+				<div class="lp-field"><label>Mobile Phone Number *</label><input id="mobile_no" required></div>
+			</div>
+
+			<div class="lp-section-label">Company details</div>
+			<div class="lp-field"><label>Company Name *</label><input id="company_name" required></div>
+			<div class="lp-form-2col">
+				<div class="lp-field"><label>TAX/VAT number</label><input id="tax_id"></div>
+				<div class="lp-field"><label>Website</label><input id="website" placeholder="https://"></div>
+			</div>
+
+			<div class="lp-section-label">Billing address</div>
+			<div class="lp-field"><label>Address Title</label><input id="address_title" placeholder="Defaults to company name"></div>
+			<div class="lp-field"><label>Address Line 1 *</label><input id="address_line1" required></div>
+			<div class="lp-field"><label>Address Line 2</label><input id="address_line2"></div>
+			<div class="lp-form-2col">
+				<div class="lp-field"><label>ZIP code *</label><input id="pincode" required></div>
+				<div class="lp-field"><label>City/Town *</label><input id="city" required></div>
+			</div>
+			<div class="lp-field"><label>Country *</label><input id="country" required></div>
+
+			<button type="submit" class="lp-btn-primary">Create account</button>
+		</form>
+
+		<div class="lp-auth-foot">
+			Already have an account? <a href="/login">Log in</a>
+		</div>
+	</div>
+</div>
+
+<script>
+(function () {
+	document.getElementById('lp-signup-form').addEventListener('submit', function (e) {
+		e.preventDefault();
+		var msg = document.getElementById('lp-signup-msg');
+		msg.className = 'lp-form-msg';
+
+		var payload = {
+			first_name: document.getElementById('first_name').value,
+			last_name: document.getElementById('last_name').value,
+			email: document.getElementById('email').value,
+			mobile_no: document.getElementById('mobile_no').value,
+			company_name: document.getElementById('company_name').value,
+			tax_id: document.getElementById('tax_id').value,
+			website: document.getElementById('website').value,
+			address_title: document.getElementById('address_title').value,
+			address_line1: document.getElementById('address_line1').value,
+			address_line2: document.getElementById('address_line2').value,
+			pincode: document.getElementById('pincode').value,
+			city: document.getElementById('city').value,
+			country: document.getElementById('country').value,
+		};
+
+		fetch('/api/method/lemco_portal.api.create_customer_account', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Frappe-CSRF-Token': (window.frappe && frappe.csrf_token) || '',
+			},
+			body: JSON.stringify(payload),
+		})
+			.then(function (res) {
+				return res.json().then(function (data) {
+					if (!res.ok) {
+						throw new Error((data && data.exc_type ? data._server_messages : null) || data.message || 'Something went wrong.');
+					}
+					return data;
+				});
+			})
+			.then(function () {
+				msg.className = 'lp-form-msg lp-success';
+				msg.textContent = "Account created! Check your email to confirm, then we'll activate your portal access shortly.";
+				document.getElementById('lp-signup-form').reset();
+				document.getElementById('lp-signup-form').style.display = 'none';
+			})
+			.catch(function (err) {
+				msg.className = 'lp-form-msg lp-error';
+				msg.textContent = err.message || 'Something went wrong. Please check your details and try again.';
+			});
+	});
+})();
+</script>
+{% endblock %}

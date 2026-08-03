@@ -1,0 +1,157 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css">
+<script>document.body.classList.add('lp-website-body');</script>
+
+{% if pending_approval %}
+<div class="lp-auth-wrap">
+	<div class="lp-auth-card" style="text-align:center;">
+		<h1>Almost there</h1>
+		<p class="lp-sub">Your account is registered but still pending approval from our team.
+		We'll email you as soon as it's activated.</p>
+		<a href="/login" class="lp-btn-secondary" style="display:inline-block;text-decoration:none;">Back to login</a>
+	</div>
+</div>
+{% else %}
+
+<div class="layout" style="display:flex;min-height:100vh;">
+	<div class="sidebar" style="width:250px;background:#fff;border-right:1px solid var(--lp-border);padding:20px 16px;display:flex;flex-direction:column;flex-shrink:0;">
+		<div class="lp-brand" style="padding:0 4px 20px;">LEMCO <small>PORTAL</small></div>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:8px 8px;">MAIN</div>
+		<a class="lp-nav-item lp-nav-active" href="/dashboard">Home</a>
+		<a class="lp-nav-item" href="/helpdesk/tickets">My tickets</a>
+		<a class="lp-nav-item" href="/desk/project?status=Open">My services</a>
+		<a class="lp-nav-item" href="/desk/project?status=Open">My projects</a>
+		<a class="lp-nav-item" href="/desk/subscription/view/report">My subscriptions</a>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">RESOURCES</div>
+		<a class="lp-nav-item" href="/helpdesk/kb">Knowledge base</a>
+		<a class="lp-nav-item" href="/lms/">Academy</a>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">ADMIN</div>
+		<a class="lp-nav-item" href="/app/contact">Users</a>
+
+		<div style="flex:1;"></div>
+		<div style="background:#F5F6F9;border-radius:12px;padding:16px;margin-top:20px;">
+			<strong style="font-size:14px;">Need help?</strong>
+			<p style="font-size:12px;color:var(--lp-muted);margin:4px 0 12px;">We're here for you.</p>
+			<a href="/helpdesk/tickets/new" style="display:block;text-align:center;background:#fff;border:1px solid var(--lp-border);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#1E2430;text-decoration:none;">Create a ticket</a>
+		</div>
+	</div>
+
+	<div style="flex:1;min-width:0;">
+		<div class="lp-topbar">
+			<div></div>
+			<div class="lp-ext-links" style="align-items:center;">
+				<a href="https://www.lemco.gr" target="_blank" rel="noopener">Lemco website</a>
+				<a href="https://www.fleex.gr" target="_blank" rel="noopener">Fleex website</a>
+				<a href="/api/method/logout" style="color:#E23A5B;">Log out</a>
+			</div>
+		</div>
+
+		<div class="content" style="padding:28px;max-width:1400px;">
+			<div class="lp-hero">
+				<h1>Welcome to Lemco Portal!</h1>
+				<p>Here's what's happening with your account today.</p>
+			</div>
+
+			<div class="lp-cards" id="lp-cards"><!-- filled by JS --></div>
+
+			<h2 class="lp-section-title">Quick access</h2>
+			<div class="lp-quick-access">
+				<a class="lp-qa-card lp-qa-blue" href="/helpdesk/kb"><div><strong>Knowledge base</strong><span>Browse articles and find helpful resources</span></div><div class="lp-qa-arrow">→</div></a>
+				<a class="lp-qa-card lp-qa-purple" href="/lms/"><div><strong>Academy</strong><span>Access training materials and learning paths</span></div><div class="lp-qa-arrow">→</div></a>
+				<a class="lp-qa-card lp-qa-green" href="/app/contact"><div><strong>Users</strong><span>Manage users and permissions</span></div><div class="lp-qa-arrow">→</div></a>
+			</div>
+
+			<div class="lp-bottom-row">
+				<div class="lp-panel">
+					<div class="lp-panel-head">
+						<h2>Upcoming Webinars</h2>
+						<a class="lp-see-all" href="/webinars">View all webinars →</a>
+					</div>
+					<div id="lp-webinar-list">Loading…</div>
+				</div>
+
+				<div class="lp-panel">
+					<h2>Recent activity</h2>
+					<div id="lp-activity-list">Loading…</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+.lp-nav-item{display:flex;align-items:center;padding:9px 10px;border-radius:8px;color:#4A5266;font-size:14px;text-decoration:none;margin-bottom:2px;}
+.lp-nav-item:hover{background:#F5F6F9;}
+.lp-nav-active{background:var(--lp-blue-light);color:var(--lp-blue);font-weight:600;}
+</style>
+
+<script>
+(function () {
+	function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+	fetch('/api/method/lemco_portal.api.get_dashboard_data')
+		.then(function (r) { return r.json(); })
+		.then(function (res) {
+			var d = res.message || {};
+			var t = d.tickets || {open:0,closed:0};
+			var p = d.projects || {open:0,closed:0};
+			var s = d.subscriptions || {open:0,closed:0};
+
+			document.getElementById('lp-cards').innerHTML =
+				card('orange', 'My Tickets', t.open + t.closed, 'Total tickets', t.open, t.closed, '/helpdesk/tickets', 'View and manage') +
+				card('blue', 'My Services', p.open + p.closed, 'Total services', p.open, p.closed, '/desk/project?status=Open', 'Manage services') +
+				card('purple', 'My Projects', p.open + p.closed, 'Total projects', p.open, p.closed, '/desk/project?status=Open', 'View projects') +
+				card('red', 'My Subscriptions', s.open + s.closed, 'Total subscriptions', s.open, s.closed, '/desk/subscription/view/report', 'Manage subscriptions');
+		})
+		.catch(function () {
+			document.getElementById('lp-cards').innerHTML = '<p style="color:var(--lp-muted);">Could not load account data.</p>';
+		});
+
+	function card(color, label, count, subtext, open, closed, link, linkText) {
+		return '<div class="lp-card">' +
+			'<div class="lp-card-head"><div class="lp-icon-box lp-' + color + '"></div><div class="lp-label">' + label + '</div></div>' +
+			'<div class="lp-count">' + count + '</div>' +
+			'<div class="lp-subtext">' + subtext + '</div>' +
+			'<div class="lp-pills"><span class="lp-pill lp-pill-' + color + '">Open: ' + open + '</span><span class="lp-pill lp-pill-grey">Closed: ' + closed + '</span></div>' +
+			'<a class="lp-card-link lp-text-' + color + '" href="' + link + '">' + linkText + ' →</a></div>';
+	}
+
+	fetch('/api/method/lemco_portal.api.list_webinars')
+		.then(function (r) { return r.json(); })
+		.then(function (res) {
+			var webinars = (res.message || []).slice(0, 3);
+			var el = document.getElementById('lp-webinar-list');
+			if (!webinars.length) { el.innerHTML = '<p style="color:var(--lp-muted);font-size:13px;">No upcoming webinars right now.</p>'; return; }
+			el.innerHTML = webinars.map(function (w) {
+				return '<div class="lp-webinar">' +
+					'<div class="lp-date-box"><div class="lp-day">' + new Date(w.webinar_date).getDate() + '</div></div>' +
+					'<div class="lp-webinar-info"><strong>' + esc(w.title) + '</strong><p>' + esc(w.description || '') + '</p></div>' +
+					'<a class="lp-register-btn" style="text-decoration:none;display:inline-block;" href="/webinars">Details</a></div>';
+			}).join('');
+		})
+		.catch(function () {
+			document.getElementById('lp-webinar-list').innerHTML = '<p style="color:var(--lp-muted);font-size:13px;">Could not load webinars.</p>';
+		});
+
+	fetch('/api/method/lemco_portal.api.get_recent_activity')
+		.then(function (r) { return r.json(); })
+		.then(function (res) {
+			var items = res.message || [];
+			var el = document.getElementById('lp-activity-list');
+			if (!items.length) { el.innerHTML = '<p style="color:var(--lp-muted);font-size:13px;">No recent activity yet.</p>'; return; }
+			el.innerHTML = items.map(function (a) {
+				return '<div class="lp-status-row"><span>' + esc(a.subject || a.operation) + '</span><span style="color:var(--lp-muted);font-weight:400;">' + new Date(a.creation).toLocaleDateString() + '</span></div>';
+			}).join('');
+		})
+		.catch(function () {
+			document.getElementById('lp-activity-list').innerHTML = '<p style="color:var(--lp-muted);font-size:13px;">Could not load activity.</p>';
+		});
+})();
+</script>
+{% endif %}
+{% endblock %}
