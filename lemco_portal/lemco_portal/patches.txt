@@ -1,2 +1,0 @@
-# Patches added to this file will be executed after app migration
-# Read docs to understand patches: https://docs.frappe.io/framework/user/en/database-migrations
