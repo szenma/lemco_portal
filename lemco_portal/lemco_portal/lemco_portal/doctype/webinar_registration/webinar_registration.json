@@ -1,0 +1,36 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-08-02 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "webinar",
+  "customer",
+  "contact_email",
+  "registered_on",
+  "status",
+  "join_url",
+  "teams_registration_id"
+ ],
+ "fields": [
+  {"fieldname": "webinar", "fieldtype": "Link", "in_list_view": 1, "label": "Webinar", "options": "Webinar", "reqd": 1},
+  {"fieldname": "customer", "fieldtype": "Link", "in_list_view": 1, "label": "Customer", "options": "Customer", "reqd": 1},
+  {"fieldname": "contact_email", "fieldtype": "Data", "in_list_view": 1, "label": "Contact Email", "options": "Email", "reqd": 1},
+  {"fieldname": "registered_on", "fieldtype": "Datetime", "label": "Registered On"},
+  {"fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "Registered\nCancelled", "default": "Registered"},
+  {"fieldname": "join_url", "fieldtype": "Data", "label": "Join URL", "description": "Personalized join link returned by Teams for this attendee, if registered via the Graph API."},
+  {"fieldname": "teams_registration_id", "fieldtype": "Data", "label": "Teams Registration ID", "read_only": 1}
+ ],
+ "module": "Lemco Portal",
+ "name": "Webinar Registration",
+ "naming_rule": "By \"Naming Series\" field",
+ "autoname": "format:WREG-{#####}",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "delete": 1, "email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "System Manager", "share": 1, "write": 1}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

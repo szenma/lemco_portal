@@ -1,0 +1,29 @@
+{
+ "actions": [],
+ "creation": "2026-08-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tenant_id",
+  "client_id",
+  "client_secret",
+  "column_break_1",
+  "help_text"
+ ],
+ "fields": [
+  {"fieldname": "tenant_id", "fieldtype": "Data", "label": "Directory (tenant) ID", "reqd": 1},
+  {"fieldname": "client_id", "fieldtype": "Data", "label": "Application (client) ID", "reqd": 1},
+  {"fieldname": "client_secret", "fieldtype": "Password", "label": "Client Secret", "reqd": 1},
+  {"fieldname": "column_break_1", "fieldtype": "Column Break"},
+  {"fieldname": "help_text", "fieldtype": "HTML", "options": "<p>From your Entra ID app registration \u2018ERPNext Teams Webinar Integration\u2019. The client secret is stored encrypted (Frappe Password fieldtype).</p>"}
+ ],
+ "issingle": 1,
+ "module": "Lemco Portal",
+ "name": "Lemco Portal Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {"read": 1, "write": 1, "create": 1, "role": "System Manager"}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
