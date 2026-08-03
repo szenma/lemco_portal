@@ -57,30 +57,7 @@ just hidden in the UI.
 Stat cards are filtered to the logged-in customer via
 `lemco_portal.api.get_dashboard_data`.
 
-## Open questions for the client — please confirm
 
-1. **"My Services" and "My Projects" both point to the same URL**
-   (`/desk/project?status=Open`) in your brief. Implemented exactly as
-   written — let me know if Services should link somewhere else.
-2. **"Users → Customer Users"** — there's no built-in Frappe page for a
-   customer to manage their own company's users. I've linked it to
-   `/app/contact` for now (which needs Desk access, so it won't actually
-   work for a pure portal user). If you want customers to self-manage their
-   team, I'll need to build a small custom page for that — let me know and
-   I'll scope it into the next milestone.
-3. **Webinars + Teams**: see below — this needs a decision from you.
-4. **Figma designs**: I can't open the Figma prototype link — Figma blocks
-   automated/URL-based access, and the login you shared is for an
-   interactive session I have no way to drive through a fetch. The login,
-   create-account, and webinars pages here are built in the same visual
-   language as the dashboard screenshot you sent earlier. If you want them
-   pixel-matched to Figma, please export each screen as a PNG (like you did
-   for the dashboard) and I'll rebuild them to match exactly.
-5. **Mailcow / no-reply@lemco.gr**: outside my scope per your note — that's
-   the piece you're handling with Dimitris. Once SMTP is configured in
-   Frappe Cloud site settings (Email Account), `frappe.sendmail()` calls in
-   this app (confirmation email, webinar registration email) will start
-   sending through it with no code changes needed.
 
 ## Webinars + Microsoft Teams — now fully wired up
 
