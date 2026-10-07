@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "creation": "2026-09-29 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "rma",
+  "rma_item",
+  "attachment_type",
+  "file",
+  "customer_visible",
+  "uploaded_by",
+  "uploaded_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "rma",
+   "fieldtype": "Link",
+   "label": "RMA",
+   "options": "RMA",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "rma_item",
+   "fieldtype": "Data",
+   "label": "RMA Item",
+   "description": "Name of the RMA Item child row to which this attachment belongs.",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "attachment_type",
+   "fieldtype": "Select",
+   "label": "Attachment Type",
+   "options": "Product Photo\nLabel Photo\nVideo\nSupporting Document",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "label": "File",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "customer_visible",
+   "fieldtype": "Check",
+   "label": "Customer Visible",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "uploaded_by",
+   "fieldtype": "Link",
+   "label": "Uploaded By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uploaded_on",
+   "fieldtype": "Datetime",
+   "label": "Uploaded On",
+   "read_only": 1
+  }
+ ],
+ "module": "Lemco Portal",
+ "name": "RMA Item Attachment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "RMA Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Repair Technician",
+   "read": 1
+  },
+  {
+   "role": "Website User",
+   "read": 1
+  }
+ ],
+ "sort_field": "uploaded_on",
+ "sort_order": "DESC"
+}

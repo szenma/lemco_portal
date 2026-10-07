@@ -1,0 +1,373 @@
+{
+ "actions": [],
+ "autoname": "format:RMA-{YYYY}-{#####}",
+ "creation": "2026-08-27 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "contact",
+  "column_break_1",
+  "requested_by",
+  "creation_source",
+  "column_break_2",
+  "request_date",
+  "status",
+  "section_break_ref",
+  "customer_reference",
+  "rma_manager",
+  "column_break_3",
+  "approved_by",
+  "approved_on",
+  "section_break_notes",
+  "customer_notes",
+  "internal_notes",
+  "section_break_action",
+  "customer_action_required",
+  "customer_action_message",
+  "section_break_items",
+  "rma_items",
+  "section_break_inbound",
+  "received_on",
+  "inbound_courier_vendor",
+  "inbound_tracking_no",
+  "section_break_return",
+  "return_address_type",
+  "return_address",
+  "return_address_snapshot",
+  "section_break_outbound",
+  "outbound_courier_vendor",
+  "outbound_tracking_no",
+  "shipped_on",
+  "released_by",
+  "closed_on",
+  "section_break_terms",
+  "terms_accepted",
+  "terms_accepted_by",
+  "column_break_4",
+  "terms_accepted_on",
+  "terms_version",
+  "section_break_report",
+  "final_report_generated_on",
+  "final_report_generated_by",
+  "final_report_file"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact",
+   "fieldtype": "Link",
+   "label": "Contact",
+   "options": "Contact"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "The logged-in portal user who submitted this RMA. Blank for RMAs created internally by Lemco.",
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "label": "Requested By",
+   "options": "User"
+  },
+  {
+   "default": "Lemco Internal",
+   "fieldname": "creation_source",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Creation Source",
+   "options": "Lemco Internal\nCustomer Portal",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "now",
+   "fieldname": "request_date",
+   "fieldtype": "Datetime",
+   "label": "Request Date",
+   "read_only": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nAwaiting Approval\nAction Required\nApproved - Awaiting Shipment\nReceived\nUnder Repair\nAwaiting Customer Approval\nReady for Return\nShipped\nClosed\nRejected\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_ref",
+   "fieldtype": "Section Break",
+   "label": "References"
+  },
+  {
+   "fieldname": "customer_reference",
+   "fieldtype": "Data",
+   "label": "Customer Reference"
+  },
+  {
+   "description": "Owns the administrative handling of this RMA.",
+   "fieldname": "rma_manager",
+   "fieldtype": "Link",
+   "label": "Responsible RMA Manager",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "customer_notes",
+   "fieldtype": "Text",
+   "label": "Customer Notes"
+  },
+  {
+   "description": "Never exposed to portal users - see field whitelist rules.",
+   "fieldname": "internal_notes",
+   "fieldtype": "Text",
+   "label": "Internal Notes"
+  },
+  {
+   "fieldname": "section_break_action",
+   "fieldtype": "Section Break",
+   "label": "Customer Action"
+  },
+  {
+   "default": "0",
+   "fieldname": "customer_action_required",
+   "fieldtype": "Check",
+   "label": "Customer Action Required"
+  },
+  {
+   "depends_on": "eval:doc.customer_action_required",
+   "fieldname": "customer_action_message",
+   "fieldtype": "Text",
+   "label": "Customer Action Message"
+  },
+  {
+   "fieldname": "section_break_items",
+   "fieldtype": "Section Break",
+   "label": "Products"
+  },
+  {
+   "fieldname": "rma_items",
+   "fieldtype": "Table",
+   "label": "Products",
+   "options": "RMA Item"
+  },
+  {
+   "fieldname": "section_break_inbound",
+   "fieldtype": "Section Break",
+   "label": "Inbound (Customer to Lemco)"
+  },
+  {
+   "fieldname": "received_on",
+   "fieldtype": "Datetime",
+   "label": "Received On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "inbound_courier_vendor",
+   "fieldtype": "Data",
+   "label": "Inbound Courier Vendor"
+  },
+  {
+   "fieldname": "inbound_tracking_no",
+   "fieldtype": "Data",
+   "label": "Inbound Tracking No."
+  },
+  {
+   "fieldname": "section_break_return",
+   "fieldtype": "Section Break",
+   "label": "Return Address"
+  },
+  {
+   "fieldname": "return_address_type",
+   "fieldtype": "Select",
+   "label": "Return Address Type",
+   "options": "\nExisting Address\nAlternative Address"
+  },
+  {
+   "depends_on": "eval:doc.return_address_type=='Existing Address'",
+   "fieldname": "return_address",
+   "fieldtype": "Link",
+   "label": "Return Address",
+   "options": "Address"
+  },
+  {
+   "description": "Frozen at the point the customer confirms it - stays accurate even if the live Address is later edited.",
+   "fieldname": "return_address_snapshot",
+   "fieldtype": "Text",
+   "label": "Return Address Snapshot",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_outbound",
+   "fieldtype": "Section Break",
+   "label": "Outbound (Lemco to Customer)"
+  },
+  {
+   "fieldname": "outbound_courier_vendor",
+   "fieldtype": "Data",
+   "label": "Outbound Courier Vendor"
+  },
+  {
+   "fieldname": "outbound_tracking_no",
+   "fieldtype": "Data",
+   "label": "Outbound Tracking No."
+  },
+  {
+   "fieldname": "shipped_on",
+   "fieldtype": "Datetime",
+   "label": "Shipped On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "released_by",
+   "fieldtype": "Link",
+   "label": "Released By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "closed_on",
+   "fieldtype": "Datetime",
+   "label": "Closed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_terms",
+   "fieldtype": "Section Break",
+   "label": "Terms Acceptance"
+  },
+  {
+   "default": "0",
+   "fieldname": "terms_accepted",
+   "fieldtype": "Check",
+   "label": "Terms Accepted",
+   "read_only": 1
+  },
+  {
+   "fieldname": "terms_accepted_by",
+   "fieldtype": "Link",
+   "label": "Terms Accepted By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "terms_accepted_on",
+   "fieldtype": "Datetime",
+   "label": "Terms Accepted On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "terms_version",
+   "fieldtype": "Data",
+   "label": "Terms Version",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_report",
+   "fieldtype": "Section Break",
+   "label": "Final Report"
+  },
+  {
+   "fieldname": "final_report_generated_on",
+   "fieldtype": "Datetime",
+   "label": "Final Report Generated On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "final_report_generated_by",
+   "fieldtype": "Link",
+   "label": "Final Report Generated By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "description": "Frozen PDF as originally shipped to the customer - never regenerated in place.",
+   "fieldname": "final_report_file",
+   "fieldtype": "Attach",
+   "label": "Final Report File",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-30 07:30:21.749478",
+ "modified_by": "Administrator",
+ "module": "Lemco Portal",
+ "name": "RMA",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "RMA Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Repair Technician"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

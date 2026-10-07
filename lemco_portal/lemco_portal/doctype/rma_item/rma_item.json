@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "creation": "2026-08-27 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "customer_serial_lot_no",
+  "qty",
+  "column_break_1",
+  "approval_status",
+  "approved_qty",
+  "photo_of_product",
+  "photo_product_label",
+  "video",
+  "supporting_document",
+  "section_break_1",
+  "problem_description",
+  "accessories",
+  "approval_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Product",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "description": "Free text as entered by the customer. Deliberately not linked to Serial No or Batch - may be left blank.",
+   "fieldname": "customer_serial_lot_no",
+   "fieldtype": "Data",
+   "label": "Serial/LOT No."
+  },
+  {
+   "default": "1",
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "approval_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Approval Status",
+   "options": "Pending\nApproved\nPartially Approved\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_qty",
+   "fieldtype": "Float",
+   "label": "Approved Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "problem_description",
+   "fieldtype": "Text",
+   "label": "Describe the problem",
+   "reqd": 1
+  },
+  {
+   "fieldname": "accessories",
+   "fieldtype": "Data",
+   "label": "Accessories included"
+  },
+  {
+   "description": "Internal - reason for partial approval/rejection.",
+   "fieldname": "approval_notes",
+   "fieldtype": "Small Text",
+   "label": "Approval Notes"
+  },
+  {
+   "fieldname": "photo_of_product",
+   "fieldtype": "Attach",
+   "label": "Photo Of Product"
+  },
+  {
+   "fieldname": "photo_product_label",
+   "fieldtype": "Attach",
+   "label": "Product Label"
+  },
+  {
+   "fieldname": "video",
+   "fieldtype": "Attach",
+   "label": "Video"
+  },
+  {
+   "fieldname": "supporting_document",
+   "fieldtype": "Attach",
+   "label": "Supporting Document"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-29 12:32:36.714272",
+ "modified_by": "Administrator",
+ "module": "Lemco Portal",
+ "name": "RMA Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

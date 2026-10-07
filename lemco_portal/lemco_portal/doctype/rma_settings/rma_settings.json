@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "creation": "2026-08-27 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "issingle": 1,
+ "field_order": [
+  "enable_rma",
+  "naming_series",
+  "lemco_hq_repair_address",
+  "rma_contact_email",
+  "section_break_terms",
+  "rma_terms",
+  "rma_instructions",
+  "section_break_portal",
+  "allow_customer_drafts",
+  "allow_customer_cancellation",
+  "allow_alternative_return_address",
+  "section_break_notify",
+  "rma_notification_recipients",
+  "column_break_notify",
+  "enable_new_rma_notification",
+  "enable_customer_response_notification",
+  "enable_tracking_notification",
+  "enable_approval_notification",
+  "enable_ready_for_return_notification",
+  "section_break_print",
+  "internal_rma_access_base_url",
+  "customer_portal_base_url"
+ ],
+ "fields": [
+  {"fieldname": "enable_rma", "fieldtype": "Check", "label": "Enable RMA", "default": "1"},
+  {"fieldname": "naming_series", "fieldtype": "Data", "label": "Naming Series", "default": "RMA-.YYYY.-.#####", "read_only": 1, "description": "Informational for V1 - the RMA doctype's actual naming pattern (RMA-{YYYY}-{#####}) is fixed in code, not read from this field yet."},
+  {"fieldname": "lemco_hq_repair_address", "fieldtype": "Link", "label": "Lemco HQ Repair Address", "options": "Address", "description": "Shown to customers once their RMA is approved - configurable here instead of hard-coded."},
+  {"fieldname": "rma_contact_email", "fieldtype": "Data", "label": "RMA Contact Email", "options": "Email"},
+
+  {"fieldname": "section_break_terms", "fieldtype": "Section Break", "label": "Terms & Instructions"},
+  {"fieldname": "rma_terms", "fieldtype": "Text Editor", "label": "RMA Terms", "description": "Shown to the customer for acceptance before submitting an RMA."},
+  {"fieldname": "rma_instructions", "fieldtype": "Text Editor", "label": "RMA Instructions", "description": "Packing/shipping instructions shown once an RMA is approved."},
+
+  {"fieldname": "section_break_portal", "fieldtype": "Section Break", "label": "Portal"},
+  {"fieldname": "allow_customer_drafts", "fieldtype": "Check", "label": "Allow Customer Drafts", "default": "1"},
+  {"fieldname": "allow_customer_cancellation", "fieldtype": "Check", "label": "Allow Customer Cancellation", "default": "1"},
+  {"fieldname": "allow_alternative_return_address", "fieldtype": "Check", "label": "Allow Alternative Return Address", "default": "1"},
+
+  {"fieldname": "section_break_notify", "fieldtype": "Section Break", "label": "Notifications"},
+  {"fieldname": "rma_notification_recipients", "fieldtype": "Table", "label": "RMA Manager / Team", "options": "RMA Notification Recipient"},
+  {"fieldname": "column_break_notify", "fieldtype": "Column Break"},
+  {"fieldname": "enable_new_rma_notification", "fieldtype": "Check", "label": "Enable New RMA Notification", "default": "1"},
+  {"fieldname": "enable_customer_response_notification", "fieldtype": "Check", "label": "Enable Customer Response Notification", "default": "1"},
+  {"fieldname": "enable_tracking_notification", "fieldtype": "Check", "label": "Enable Tracking Notification", "default": "1"},
+  {"fieldname": "enable_approval_notification", "fieldtype": "Check", "label": "Enable Approval Notification", "default": "1"},
+  {"fieldname": "enable_ready_for_return_notification", "fieldtype": "Check", "label": "Enable Ready for Return Notification", "default": "1"},
+
+  {"fieldname": "section_break_print", "fieldtype": "Section Break", "label": "Print / URLs"},
+  {"fieldname": "internal_rma_access_base_url", "fieldtype": "Data", "label": "Internal RMA Access Base URL", "default": "/rma/access"},
+  {"fieldname": "customer_portal_base_url", "fieldtype": "Data", "label": "Customer Portal Base URL", "default": "/repairs"}
+ ],
+ "module": "Lemco Portal",
+ "name": "RMA Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {"read": 1, "write": 1, "create": 1, "role": "System Manager"},
+  {"read": 1, "write": 1, "role": "RMA Manager"}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
