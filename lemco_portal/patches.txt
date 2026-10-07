@@ -1,2 +1,13 @@
 # Patches added to this file will be executed after app migration
 # Read docs to understand patches: https://docs.frappe.io/framework/user/en/database-migrations
+lemco_portal.patches.v0_2_hd_ticket_status_permission
+lemco_portal.patches.v0_3_rma_item_field
+
+# v0_4_rma_print_formats and v0_5_rma_workspace are NOT listed here - they
+# reference DocTypes this app itself ships (RMA, RMA Unit, RMA Settings),
+# so they can only safely run once those exist. Rather than depend on this
+# Frappe version's exact patches.txt phase-ordering syntax (which turned
+# out not to be the standard [post_model_sync] marker), they're called
+# from the after_migrate hook in hooks.py instead - that runs once,
+# unconditionally, after every patch and all schema sync has finished, so
+# there's no ordering question at all.

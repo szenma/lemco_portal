@@ -94,7 +94,18 @@ def upsert_webinar(w):
 	if not teams_id:
 		return
 
+	title = w.get("displayName") or teams_id
+
 	existing = frappe.db.get_value("Webinar", {"teams_webinar_id": teams_id}, "name")
+	if not existing:
+		# Teams sometimes reissues a new event id for a webinar that keeps
+		# the same displayName (e.g. the organizer edits it enough for
+		# Teams to regenerate the id). Webinar is named after its title,
+		# so falling straight through to insert() in that case collides
+		# with the old row instead of refreshing it - fall back to a
+		# title match first and update that record in place.
+		existing = frappe.db.get_value("Webinar", {"title": title}, "name")
+
 	doc = frappe.get_doc("Webinar", existing) if existing else frappe.new_doc("Webinar")
 
 	doc.teams_webinar_id = teams_id
@@ -132,16 +143,31 @@ def upsert_webinar(w):
 # Teams sends the registration/confirmation email itself once this succeeds.
 # ---------------------------------------------------------------------------
 
-def register_attendee(teams_webinar_id, first_name, last_name, email):
+def register_attendee(teams_webinar_id, first_name, last_name, email,preferred_language="en-us",
+	preferred_timezone="W. Europe Standard Time",):
 	url = f"{GRAPH_BASE}/solutions/virtualEvents/webinars/{teams_webinar_id}/registrations"
 	body = {
 		"@odata.type": "#microsoft.graph.virtualEventRegistration",
 		"firstName": first_name,
 		"lastName": last_name,
 		"email": email,
-		"registrationStatus": "registered",
+        "preferredLanguage": preferred_language,
+		"preferredTimezone": preferred_timezone,
+
 	}
 	resp = requests.post(url, headers=_headers(), json=body, timeout=20)
+	if not resp.ok:
+		# raise_for_status() alone discards the response body, which is where
+		# Graph actually explains what's wrong (error.code / error.message).
+		# Surface it so the traceback tells us the real reason, not just "400".
+		try:
+			detail = resp.json()
+		except ValueError:
+			detail = resp.text
+		frappe.log_error(
+			title="Lemco Portal: Graph webinar registration failed",
+			message=f"Status: {resp.status_code}\nBody sent: {body}\nGraph response: {detail}",
+		)
 	resp.raise_for_status()
 	if not resp.content:
 		return {}
