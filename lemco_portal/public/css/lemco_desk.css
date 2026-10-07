@@ -1,0 +1,72 @@
+/* Lemco Desk look for the RMA form and the RMA Item row editor.
+   Pure styling - no data or behaviour. Loaded via hooks.app_include_css. */
+
+/* ---- sections as cards ---- */
+.form-layout .form-page .form-section {
+	background: #fff;
+	border: 1px solid #E3E7EE;
+	border-radius: 12px;
+	margin-bottom: 16px;
+	padding: 16px 20px;
+}
+.form-layout .form-page .form-section.empty-section { display: none; }
+.form-layout .form-page .form-section .section-head {
+	font-size: 15px;
+	font-weight: 700;
+	color: #0B1F44;
+	margin-bottom: 12px;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.form-layout .form-page .form-section .section-head .section-description,
+.form-layout .form-page .form-section .form-section-description {
+	font-weight: 400;
+	font-size: 12px;
+	color: #6b7280;
+}
+
+/* small blue icon square before each section title on the main form */
+.form-layout .form-page .form-section .section-head::before {
+	content: "";
+	width: 22px; height: 22px;
+	border-radius: 6px;
+	background: #EAF3FF;
+	border: 1.5px solid #007AFF;
+	box-sizing: border-box;
+	flex-shrink: 0;
+}
+
+/* ---- RMA Item row editor: numbered blue circles (1, 2, 3 ...) ---- */
+.form-in-grid .grid-row-form-body,
+.form-in-grid .form-layout { counter-reset: lp-sec; }
+.form-in-grid .form-section:not(.hide-control):not(.empty-section) { counter-increment: lp-sec; }
+.form-in-grid .form-section .section-head::before {
+	content: counter(lp-sec);
+	width: 26px; height: 26px;
+	border-radius: 50%;
+	border: none;
+	background: #007AFF;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.form-in-grid .form-section { padding: 14px 18px; }
+
+/* attach fields: dashed full-width "Attach File" look */
+.form-in-grid .control-input .attached-file,
+.form-in-grid .control-input .btn-attach {
+	width: 100%;
+	border: 1px dashed #C9D2E0;
+	background: #F4F6FA;
+	border-radius: 8px;
+	padding: 9px 12px;
+	text-align: center;
+}
+
+/* status pills inside the Products grid */
+.grid-static-col .indicator-pill { font-size: 12px; font-weight: 600; }
