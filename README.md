@@ -1,126 +1,37 @@
 # Lemco Portal
 
-A Frappe app implementing the **Customer Portal** milestone from the Lemco
-brief: signup with approval gating, a customer dashboard, and a webinars
-page — built on Frappe's **Website/Portal** framework (not the Desk UI),
-per the client's instruction to stick to standard Frappe functionality.
+A Frappe app that gives Lemco customers a self-service portal for support, repairs, projects, subscriptions and webinars, built on top of Helpdesk and LMS.
 
-## What's included
+## Purpose
 
-| Page | Route | Purpose |
-|---|---|---|
-| Login | `/login` | Custom-styled login form + "Create account" link |
-| Create account | `/create-account` | Signup form matching the client's field table exactly |
-| Dashboard | `/dashboard` | Customer home — stat cards, quick access, webinars, recent activity |
-| Webinars | `/webinars` | Full upcoming-webinar list with Register buttons |
+Lemco customers need one place to manage their relationship with the company. This app provides that portal, with staff approval before any new customer gets access. Customer pages are built on Frappe's Website/Portal framework (not the Desk UI), so customers never see the back office.
 
-Plus:
-- **`Webinar`** doctype — staff create these (title, date, time, language,
-  speaker, Teams join URL) under Desk.
-- **`Webinar Registration`** doctype — one record per customer sign-up.
-- **`Customer.portal_access`** custom field (Select: No/Yes, default No) —
-  added automatically on install via `after_install`.
-- **Login gate** (`on_session_creation` hook) — logs a portal customer back
-  out immediately if their linked Customer's `portal_access` isn't "Yes",
-  and redirects to `/login?pending=1`.
+## Use cases
 
-## Signup flow (matches the brief's field table)
+- A new company signs up and waits for Lemco to approve its account.
+- A customer logs in, sees open tickets, projects, subscriptions and repairs at a glance, and jumps to Helpdesk, the knowledge base or the Academy.
+- A customer registers for a Microsoft Teams webinar.
+- A customer submits a repair (RMA) request, tracks it end to end, and approves chargeable repairs online.
+- A company's manager adds teammates and controls who sees what.
+- Lemco staff approve customers and run the repair workflow from Desk.
 
-`POST /api/method/lemco_portal.api.create_customer_account` creates, in order:
+## Features
 
-1. **Customer** — `customer_name`, `tax_id`, `website`, `customer_type = Company`, `portal_access = No`
-2. **Address** — marked `is_primary_address` + `is_shipping_address`, type `Billing`, linked to the Customer
-3. **Contact** — set as `customer_primary_contact`, linked to the Customer
-4. **User** (Website User, role `Customer`) — so they *can* eventually log in
-5. Confirmation email via `frappe.sendmail`
+- **Signup with approval gate:** creates Customer, Address, Contact and User; login is blocked until `Portal Access = Yes`.
+- **Dashboard:** stat cards, quick links, upcoming webinars and recent activity.
+- **Projects and subscriptions:** list and create from the portal.
+- **Org users:** managers add teammates; members see only their own projects and subscriptions.
+- **Webinars:** hourly sync from Microsoft Teams (Graph API) and one-click registration.
+- **Repair Service (RMA):** portal request form, status tracking, customer approvals, staff workflow, QR-coded print formats, final PDF report and email notifications.
+- **Password reset:** branded flow with hashed reset keys.
 
-The account is created immediately, but can't be used to log in until a
-Lemco employee flips **Portal Access** to **Yes** on the Customer record in
-Desk (`/app/customer/<name>`) — enforced server-side by the login hook, not
-just hidden in the UI.
+## Requirements
 
-## Dashboard link mapping (as specified by the client)
-
-| Card / link | Target |
-|---|---|
-| My Tickets | `/helpdesk/tickets` |
-| My Services | `/desk/project?status=Open` |
-| My Projects | `/desk/project?status=Open` |
-| My Subscriptions | `/desk/subscription/view/report` |
-| Knowledge base | `/helpdesk/kb` |
-| Academy | `/lms/` |
-| Users | `/app/contact` *(see open question below)* |
-| Lemco website (top right) | `https://www.lemco.gr` (new tab) |
-| Fleex website (top right) | `https://www.fleex.gr` (new tab) |
-| Create a ticket | `/helpdesk/tickets/new` |
-
-Stat cards are filtered to the logged-in customer via
-`lemco_portal.api.get_dashboard_data`.
-
-
-
-## Webinars + Microsoft Teams — now fully wired up
-
-Your Entra app registration has both permissions needed, granted and
-consented:
-
-- `VirtualEvent.Read.All` (Application) — lists webinars
-- `VirtualEventRegistration-Anon.ReadWrite.All` (Application) — registers customers
-
-### How it works
-
-- **`lemco_portal/graph.py`** authenticates via the client-credentials flow
-  using credentials you enter in **Lemco Portal Settings**
-  (`/app/lemco-portal-settings` — Tenant ID, Client ID, Client Secret; the
-  secret is stored encrypted).
-- An **hourly scheduled job** (`lemco_portal.graph.sync_webinars`) calls
-  `GET /solutions/virtualEvents/webinars` and upserts each one into the
-  local `Webinar` doctype, matched on the new `teams_webinar_id` field.
-  This keeps `/webinars` fast and resilient even if Graph is briefly down.
-- When a customer clicks **Register** on `/webinars`, `register_for_webinar`
-  checks whether the webinar has a `teams_webinar_id`:
-  - **If yes** (synced from Teams) → calls
-    `POST /solutions/virtualEvents/webinars/{id}/registrations` with the
-    customer's name/email. **Teams itself sends the registration and
-    reminder emails** — this is what the `-Anon` permission is for. The
-    personalized join link Teams returns is stored on the
-    `Webinar Registration` record.
-  - **If no** (a webinar someone entered by hand, with just a pasted-in
-    `teams_join_url`) → falls back to the old behavior: ERPNext sends its
-    own confirmation email with that link.
-
-### Setup you still need to do (not code, this is your Azure/Teams config)
-
-1. Fill in **Lemco Portal Settings** with the Tenant ID, Client ID, and
-   Client Secret from the app registration.
-2. `GET /solutions/virtualEvents/webinars` **only returns webinars whose
-   organizer has an Application Access Policy** for this app — same
-   requirement as before. With Teams admin PowerShell:
-   ```powershell
-   New-CsApplicationAccessPolicy -Identity "LemcoPortalWebinarAccess" -AppIds "b7d85da3-8a70-4e16-8894-def84c6ebaea" -Description "Lemco Portal webinar sync/registration"
-   Grant-CsApplicationAccessPolicy -PolicyName "LemcoPortalWebinarAccess" -Identity "organizer@lemco.gr"
-   ```
-   Repeat the `Grant-CsApplicationAccessPolicy` line for each employee who'll organize webinars.
-3. Each organizer needs a webinar (not a plain meeting) created in Teams —
-   this is a distinct event type in Teams, with its own registration page.
-4. Once policies are in place, either wait for the hourly job or run
-   `frappe.call("lemco_portal.graph.sync_webinars_now")` from the Desk
-   console (System Manager only) to pull webinars immediately for testing.
-
-### Still worth knowing
-
-- Listing webinar **attendees/registrants** back out isn't available in
-  this Graph API yet (Microsoft's docs note this explicitly) — so there's
-  no way to build an "attendee report" inside ERPNext beyond what's already
-  tracked in the local `Webinar Registration` doctype from registrations
-  made *through the portal*. Registrations made directly in Teams by people
-  outside the portal won't show up in ERPNext.
-- Webinars require the organizer to hold an M365 E3/E5 or Teams Premium
-  license — a Teams/licensing detail, not something this app controls.
+- Frappe / ERPNext
+- Apps: `helpdesk`, `lms`, `crm`
+- Python >= 3.10
 
 ## Installation
-
-### On a bench (self-hosted)
 
 ```bash
 cd frappe-bench
@@ -130,41 +41,23 @@ bench --site your-site.local migrate
 bench build
 ```
 
-### On Frappe Cloud
+On Frappe Cloud: Bench → Apps → Install from GitHub, deploy, then install on the site.
 
-1. Push this repo to GitHub.
-2. Bench → **Apps** → **Install App** → **Install from GitHub** → this repo's URL.
-3. Deploy the bench, then install the app on `portal.lemco.gr` from the
-   site's **Apps** tab.
-4. In Desk, go to **Website Settings** (or set `home_page` per role) so
-   Guests land on `/login` and Website Users land on `/dashboard` — the
-   `role_home_page` hook here already routes the `Customer` role to
-   `/dashboard`.
+## Configuration
 
-## After install — manual setup steps
+1. Set up the outgoing **Email Account** in Desk.
+2. Enter the Entra **Tenant ID, Client ID and Client Secret** in *Lemco Portal Settings* (needs `VirtualEvent.Read.All` and `VirtualEventRegistration-Anon.ReadWrite.All`, plus a Teams Application Access Policy for each webinar organizer).
+3. Fill in **RMA Settings** and tick **Allow RMA** on the Items customers may send for repair.
+4. Run the one-time layout setup:
+   ```bash
+   bench --site your-site.local execute lemco_portal.api.setup_backend_layout
+   bench --site your-site.local execute lemco_portal.api.setup_lemco_letter_head
+   ```
+5. Approve each new customer by setting **Portal Access** to **Yes** on the Customer record.
 
-- Add at least one `Webinar` record (`/app/webinar/new`) so `/webinars` has
-  something to show.
-- For each new signup, go to `/app/customer/<name>` and set **Portal
-  Access** to **Yes** once verified.
-- Configure the outgoing Email Account in Desk (Settings → Email Account)
-  once Mailcow/no-reply@lemco.gr is ready — no code changes needed here.
-- `required_apps = ["helpdesk", "lms", "crm"]` in `hooks.py` tells
-  bench/Frappe Cloud to ensure those are installed first.
+## Portal pages
 
-## Known limitations / things to verify on your actual site
-
-- `HD Ticket`, `Project`, `Subscription` filters in `get_dashboard_data()`
-  assume a `customer` (or `party`) field links each record to the
-  Customer — confirm those field names match your installs (Helpdesk in
-  particular sometimes links tickets via `customer` on `HD Ticket`, verify
-  it's enabled in Helpdesk settings).
-- Overriding the core `/login` page by shipping our own `www/login/index.html`
-  is a standard Frappe technique, but page resolution/precedence has
-  shifted a little between Frappe versions — test this first on staging.
-- CSRF: form posts use `frappe.csrf_token`, which is only present once the
-  base website template has loaded it — confirmed present in the standard
-  `templates/web.html` base template these pages extend.
+`/login` · `/create-account` · `/reset-password` · `/dashboard` · `/projects` · `/subscriptions` · `/users` · `/webinars` · `/repairs`
 
 ## License
 
