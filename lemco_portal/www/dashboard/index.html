@@ -1,7 +1,10 @@
 {% extends "templates/web.html" %}
 
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
 {% block page_content %}
-<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css">
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css?v=19">
 <script>document.body.classList.add('lp-website-body');</script>
 
 {% if pending_approval %}
@@ -15,23 +18,33 @@
 </div>
 {% else %}
 
-<div class="layout" style="display:flex;min-height:100vh;">
-	<div class="sidebar" style="width:250px;background:#fff;border-right:1px solid var(--lp-border);padding:20px 16px;display:flex;flex-direction:column;flex-shrink:0;">
-		<div class="lp-brand" style="padding:0 4px 20px;">LEMCO <small>PORTAL</small></div>
+<div class="lp-topnav">
+	<img class="lp-topnav-logo" src="/assets/lemco_portal/images/lemco-logo.png" alt="Lemco">
+	<div class="lp-topnav-right">
+		<a href="https://www.lemco.gr" target="_blank" rel="noopener">Lemco website</a>
+		<a href="https://www.fleex.gr" target="_blank" rel="noopener">Fleex website</a>
+		<div class="lp-avatar" id="lp-avatar">U<span class="lp-avatar-status"></span></div>
+	</div>
+</div>
+
+<div class="layout" style="display:flex;min-height:calc(100vh - 54px);">
+	<div class="lp-sidebar-backdrop" id="lp-sidebar-backdrop"></div>
+	<div class="sidebar" id="lp-sidebar" style="width:271px;background:#fff;border-right:1px solid var(--lp-border);padding:20px 0;display:flex;flex-direction:column;flex-shrink:0;">
 
 		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:8px 8px;">MAIN</div>
-		<a class="lp-nav-item lp-nav-active" href="/dashboard">Home</a>
-		<a class="lp-nav-item" href="/helpdesk/tickets">My tickets</a>
-		<a class="lp-nav-item" href="/desk/project?status=Open">My services</a>
-		<a class="lp-nav-item" href="/desk/project?status=Open">My projects</a>
-		<a class="lp-nav-item" href="/desk/subscription/view/report">My subscriptions</a>
+		<a class="lp-nav-item lp-nav-active" href="/dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a>
+		<a class="lp-nav-item" href="/helpdesk/tickets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>My tickets</a>
+		<a class="lp-nav-item" href="/repairs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 01-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 015.4-5.4l-3-3z"/></svg>My repairs</a>
+		<a class="lp-nav-item" href="/projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg>My projects</a>
+		<a class="lp-nav-item" href="/subscriptions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>My subscriptions</a>
 
 		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">RESOURCES</div>
-		<a class="lp-nav-item" href="/helpdesk/kb">Knowledge base</a>
-		<a class="lp-nav-item" href="/lms/">Academy</a>
+		<a class="lp-nav-item" href="/webinars"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>Webinars</a>
+		<a class="lp-nav-item" href="/helpdesk/kb-public"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Knowledge base</a>
+		<a class="lp-nav-item" href="/lms/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 4 2 10l10 6 10-6z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>Academy</a>
 
 		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">ADMIN</div>
-		<a class="lp-nav-item" href="/app/contact">Users</a>
+		<a class="lp-nav-item" href="/users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Users</a>
 
 		<div style="flex:1;"></div>
 		<div style="background:#F5F6F9;border-radius:12px;padding:16px;margin-top:20px;">
@@ -42,17 +55,14 @@
 	</div>
 
 	<div style="flex:1;min-width:0;">
-		<div class="lp-topbar">
-			<div></div>
-			<div class="lp-ext-links" style="align-items:center;">
-				<a href="https://www.lemco.gr" target="_blank" rel="noopener">Lemco website</a>
-				<a href="https://www.fleex.gr" target="_blank" rel="noopener">Fleex website</a>
-				<a href="/api/method/logout" style="color:#E23A5B;">Log out</a>
-			</div>
+		<div class="lp-topbar" style="justify-content:flex-start;">
+			<button class="lp-menu-toggle" id="lp-menu-toggle" aria-label="Open menu">☰</button>
+			<a href="#" id="lp-logout-link" style="color:#E23A5B;margin-left:auto;font-size:13.5px;font-weight:600;text-decoration:none;">Log out</a>
 		</div>
 
-		<div class="content" style="padding:28px;max-width:1400px;">
+		<div class="content" style="padding:28px;">
 			<div class="lp-hero">
+				<img class="lp-hero-img" src="/assets/lemco_portal/images/dashboard-hero.png" alt="">
 				<h1>Welcome to Lemco Portal!</h1>
 				<p>Here's what's happening with your account today.</p>
 			</div>
@@ -61,9 +71,9 @@
 
 			<h2 class="lp-section-title">Quick access</h2>
 			<div class="lp-quick-access">
-				<a class="lp-qa-card lp-qa-blue" href="/helpdesk/kb"><div><strong>Knowledge base</strong><span>Browse articles and find helpful resources</span></div><div class="lp-qa-arrow">→</div></a>
-				<a class="lp-qa-card lp-qa-purple" href="/lms/"><div><strong>Academy</strong><span>Access training materials and learning paths</span></div><div class="lp-qa-arrow">→</div></a>
-				<a class="lp-qa-card lp-qa-green" href="/app/contact"><div><strong>Users</strong><span>Manage users and permissions</span></div><div class="lp-qa-arrow">→</div></a>
+				<a class="lp-qa-card lp-qa-teal" href="/helpdesk/kb-public"><div class="lp-qa-icon lp-teal"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div><div><strong>Knowledge base</strong><span>Browse articles and find helpful resources</span></div><div class="lp-qa-arrow">→</div></a>
+				<a class="lp-qa-card lp-qa-navy" href="/lms/"><div class="lp-qa-icon lp-navy"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 10L12 4 2 10l10 6 10-6z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></div><div><strong>Academy</strong><span>Access training materials and learning paths</span></div><div class="lp-qa-arrow">→</div></a>
+				<a class="lp-qa-card lp-qa-green" href="/users"><div class="lp-qa-icon lp-green"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><div><strong>Users</strong><span>Manage users and permissions</span></div><div class="lp-qa-arrow">→</div></a>
 			</div>
 
 			<div class="lp-bottom-row">
@@ -72,53 +82,125 @@
 						<h2>Upcoming Webinars</h2>
 						<a class="lp-see-all" href="/webinars">View all webinars →</a>
 					</div>
-					<div id="lp-webinar-list">Loading…</div>
+					<div id="lp-webinar-list" class="lp-panel-scroll">Loading…</div>
 				</div>
 
 				<div class="lp-panel">
-					<h2>Recent activity</h2>
-					<div id="lp-activity-list">Loading…</div>
+					<div class="lp-panel-head">
+						<h2>Recent activity</h2>
+						<a class="lp-see-all" href="#" style="pointer-events:none;opacity:.5;">View all activity →</a>
+					</div>
+					<div id="lp-activity-list" class="lp-panel-scroll">Loading…</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+<div class="lp-app-footer">
+	<span>2026© LEMCO IKE. All rights reserved.</span>
+	<div class="lp-footer-links">
+		<a href="/privacy-policy">Privacy policy</a>
+		<a href="/terms-of-service">Terms of service</a>
+	</div>
+</div>
+
 <style>
-.lp-nav-item{display:flex;align-items:center;padding:9px 10px;border-radius:8px;color:#4A5266;font-size:14px;text-decoration:none;margin-bottom:2px;}
+.lp-nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:#4A5266;font-size:14px;text-decoration:none;margin-bottom:2px;}
+.lp-nav-item svg{width:18px;height:18px;flex-shrink:0;stroke:#8891A0;}
 .lp-nav-item:hover{background:#F5F6F9;}
 .lp-nav-active{background:var(--lp-blue-light);color:var(--lp-blue);font-weight:600;}
+.lp-nav-active svg{stroke:var(--lp-blue);}
 </style>
 
 <script>
 (function () {
 	function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+	function stripHtml(html) {
+		var d = document.createElement('div');
+		d.innerHTML = html || '';
+		return (d.textContent || '').replace(/\s+/g, ' ').trim();
+	}
+	function truncate(text, max) {
+		text = text || '';
+		if (text.length <= max) return text;
+		return text.slice(0, max).trim() + '…';
+	}
 
-	fetch('/api/method/lemco_portal.api.get_dashboard_data')
+	fetch('/api/method/lemco_portal.api.get_user_display_name')
 		.then(function (r) { return r.json(); })
 		.then(function (res) {
-			var d = res.message || {};
+			var name = (res.message || 'U').trim();
+			document.getElementById('lp-avatar').firstChild.textContent = name ? name[0].toUpperCase() : 'U';
+		})
+		.catch(function () { /* leave default 'U' */ });
+
+	var sidebar = document.getElementById('lp-sidebar');
+	var backdrop = document.getElementById('lp-sidebar-backdrop');
+	function closeSidebar() { sidebar.classList.remove('lp-sidebar-open'); backdrop.classList.remove('lp-sidebar-open'); }
+	document.getElementById('lp-menu-toggle').addEventListener('click', function () {
+		sidebar.classList.add('lp-sidebar-open');
+		backdrop.classList.add('lp-sidebar-open');
+	});
+	backdrop.addEventListener('click', closeSidebar);
+	sidebar.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeSidebar); });
+
+	document.getElementById('lp-logout-link').addEventListener('click', function (e) {
+		e.preventDefault();
+		fetch('/api/method/logout', {
+			method: 'POST',
+			headers: { 'X-Frappe-CSRF-Token': (window.frappe && frappe.csrf_token) || '' },
+		}).finally(function () {
+			window.location.href = '/login';
+		});
+	});
+
+	Promise.all([
+		fetch('/api/method/lemco_portal.api.get_dashboard_data').then(function (r) { return r.json(); }),
+		fetch('/api/method/lemco_portal.api.get_repairs_dashboard').then(function (r) { return r.json(); }).catch(function () { return {message: {total: 0, open: 0, closed: 0, action_required: 0}}; }),
+	])
+		.then(function (results) {
+			var d = results[0].message || {};
+			var repairs = results[1].message || {total: 0, open: 0, closed: 0, action_required: 0};
 			var t = d.tickets || {open:0,closed:0};
 			var p = d.projects || {open:0,closed:0};
 			var s = d.subscriptions || {open:0,closed:0};
 
 			document.getElementById('lp-cards').innerHTML =
-				card('orange', 'My Tickets', t.open + t.closed, 'Total tickets', t.open, t.closed, '/helpdesk/tickets', 'View and manage') +
-				card('blue', 'My Services', p.open + p.closed, 'Total services', p.open, p.closed, '/desk/project?status=Open', 'Manage services') +
-				card('purple', 'My Projects', p.open + p.closed, 'Total projects', p.open, p.closed, '/desk/project?status=Open', 'View projects') +
-				card('red', 'My Subscriptions', s.open + s.closed, 'Total subscriptions', s.open, s.closed, '/desk/subscription/view/report', 'Manage subscriptions');
+				card('orange', 'orange', ICONS.people, 'My Tickets', t.open + t.closed, 'Total tickets', t.open, t.closed, '/helpdesk/tickets', 'View and manage') +
+				card('blue', 'blue', ICONS.tool, 'My Repairs', repairs.total, 'Total repairs', repairs.open, repairs.closed, '/repairs', 'View repairs', repairs.action_required) +
+				card('purple', 'purple', ICONS.building, 'My Projects', p.open + p.closed, 'Total projects', p.open, p.closed, '/projects', 'View projects') +
+				card('red', 'red', ICONS.calendar, 'My Subscriptions', s.open + s.closed, 'Total subscriptions', s.open, s.closed, '/subscriptions', 'Manage subscriptions');
 		})
 		.catch(function () {
 			document.getElementById('lp-cards').innerHTML = '<p style="color:var(--lp-muted);">Could not load account data.</p>';
 		});
 
-	function card(color, label, count, subtext, open, closed, link, linkText) {
-		return '<div class="lp-card">' +
-			'<div class="lp-card-head"><div class="lp-icon-box lp-' + color + '"></div><div class="lp-label">' + label + '</div></div>' +
-			'<div class="lp-count">' + count + '</div>' +
-			'<div class="lp-subtext">' + subtext + '</div>' +
-			'<div class="lp-pills"><span class="lp-pill lp-pill-' + color + '">Open: ' + open + '</span><span class="lp-pill lp-pill-grey">Closed: ' + closed + '</span></div>' +
-			'<a class="lp-card-link lp-text-' + color + '" href="' + link + '">' + linkText + ' →</a></div>';
+	var ICONS = {
+		people: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
+		tool: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14.7 6.3a4 4 0 01-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 015.4-5.4l-3-3z"/></svg>',
+		building: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg>',
+		calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>',
+	};
+
+	function card(tint, color, icon, label, count, subtext, open, closed, link, linkText, actionRequired) {
+		var warning = actionRequired ? '<div class="lp-card-warning">⚠ ' + actionRequired + ' requires your action</div>' : '';
+		return '<div class="lp-card lp-card-pastel lp-tint-' + tint + '">' +
+			'<div class="lp-card-body">' +
+				'<div class="lp-icon-box lp-' + color + '">' + icon + '</div>' +
+				'<div class="lp-card-text">' +
+					'<span class="lp-label">' + label + '</span>' +
+					'<div class="lp-count">' + count + '</div>' +
+					'<div class="lp-subtext">' + subtext + '</div>' +
+				'</div>' +
+			'</div>' +
+			'<div class="lp-card-stats">' +
+				'<span class="lp-stat">Open:<b class="lp-text-' + color + '">' + open + '</b></span>' +
+				'<span class="lp-stat">Closed:<b>' + closed + '</b></span>' +
+			'</div>' +
+			warning +
+			'<div class="lp-card-footer"><a class="lp-card-link lp-text-' + color + '" href="' + link + '">' + linkText + ' →</a></div>' +
+		'</div>';
 	}
 
 	fetch('/api/method/lemco_portal.api.list_webinars')
@@ -128,10 +210,16 @@
 			var el = document.getElementById('lp-webinar-list');
 			if (!webinars.length) { el.innerHTML = '<p style="color:var(--lp-muted);font-size:13px;">No upcoming webinars right now.</p>'; return; }
 			el.innerHTML = webinars.map(function (w) {
+				var d = new Date(w.webinar_date);
 				return '<div class="lp-webinar">' +
-					'<div class="lp-date-box"><div class="lp-day">' + new Date(w.webinar_date).getDate() + '</div></div>' +
-					'<div class="lp-webinar-info"><strong>' + esc(w.title) + '</strong><p>' + esc(w.description || '') + '</p></div>' +
-					'<a class="lp-register-btn" style="text-decoration:none;display:inline-block;" href="/webinars">Details</a></div>';
+					'<div class="lp-date-box"><div class="lp-mon">' + d.toLocaleString('en', {month:'short'}).toUpperCase() + '</div><div class="lp-day">' + d.getDate() + '</div><div class="lp-dow">' + d.toLocaleString('en', {weekday:'short'}).toUpperCase() + '</div></div>' +
+					'<div class="lp-webinar-info">' +
+						'<strong>' + esc(w.title) + '</strong>' +
+						'<p>' + esc(truncate(stripHtml(w.description), 40)) + '</p>' +
+						'<div class="lp-meta">📹 Hosted on Microsoft Teams</div>' +
+					'</div>' +
+					(w.duration_minutes ? '<div class="lp-duration">🕐 ' + w.duration_minutes + ' mins</div>' : '') +
+					'<a class="lp-register-btn" style="text-decoration:none;display:inline-block;" href="/webinars">Register</a></div>';
 			}).join('');
 		})
 		.catch(function () {
@@ -144,8 +232,24 @@
 			var items = res.message || [];
 			var el = document.getElementById('lp-activity-list');
 			if (!items.length) { el.innerHTML = '<p style="color:var(--lp-muted);font-size:13px;">No recent activity yet.</p>'; return; }
+
+			function categorize(text) {
+				text = (text || '').toLowerCase();
+				if (text.indexOf('ticket') !== -1) return { color: 'orange', icon: ICONS.people };
+				if (text.indexOf('project') !== -1) return { color: 'purple', icon: ICONS.building };
+				if (text.indexOf('subscription') !== -1) return { color: 'red', icon: ICONS.calendar };
+				if (text.indexOf('service') !== -1) return { color: 'blue', icon: ICONS.tool };
+				return { color: 'blue', icon: ICONS.tool };
+			}
+
 			el.innerHTML = items.map(function (a) {
-				return '<div class="lp-status-row"><span>' + esc(a.subject || a.operation) + '</span><span style="color:var(--lp-muted);font-weight:400;">' + new Date(a.creation).toLocaleDateString() + '</span></div>';
+				var text = a.subject || a.operation;
+				var cat = categorize(text);
+				var timeAgo = new Date(a.creation).toLocaleDateString();
+				return '<div class="lp-activity-row">' +
+					'<div class="lp-icon-box lp-icon-sm lp-' + cat.color + '">' + cat.icon + '</div>' +
+					'<div class="lp-activity-text">' + esc(text) + '</div>' +
+					'<div class="lp-activity-time">' + timeAgo + '</div></div>';
 			}).join('');
 		})
 		.catch(function () {

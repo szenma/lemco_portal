@@ -1,0 +1,642 @@
+{% extends "templates/web.html" %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block page_content %}
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css?v=19">
+<script>document.body.classList.add('lp-website-body');</script>
+
+<div class="lp-topnav">
+	<img class="lp-topnav-logo" src="/assets/lemco_portal/images/lemco-logo.png" alt="Lemco">
+	<div class="lp-topnav-right">
+		<a href="https://www.lemco.gr" target="_blank" rel="noopener">Lemco website</a>
+		<a href="https://www.fleex.gr" target="_blank" rel="noopener">Fleex website</a>
+		<div class="lp-avatar" id="lp-avatar">U<span class="lp-avatar-status"></span></div>
+	</div>
+</div>
+
+<div class="layout" style="display:flex;min-height:calc(100vh - 54px);">
+	<div class="lp-sidebar-backdrop" id="lp-sidebar-backdrop"></div>
+	<div class="sidebar" id="lp-sidebar" style="width:271px;background:#fff;border-right:1px solid var(--lp-border);padding:20px 0;display:flex;flex-direction:column;flex-shrink:0;">
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:8px 8px;">MAIN</div>
+		<a class="lp-nav-item" href="/dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a>
+		<a class="lp-nav-item" href="/helpdesk/tickets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>My tickets</a>
+		<a class="lp-nav-item lp-nav-active" href="/repairs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 01-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 015.4-5.4l-3-3z"/></svg>My repairs</a>
+		<a class="lp-nav-item" href="/projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg>My projects</a>
+		<a class="lp-nav-item" href="/subscriptions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>My subscriptions</a>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">RESOURCES</div>
+		<a class="lp-nav-item" href="/webinars"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>Webinars</a>
+		<a class="lp-nav-item" href="/helpdesk/kb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Knowledge base</a>
+		<a class="lp-nav-item" href="/lms/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 4 2 10l10 6 10-6z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>Academy</a>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">ADMIN</div>
+		<a class="lp-nav-item" href="/users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Users</a>
+
+		<div style="flex:1;"></div>
+	</div>
+
+	<div style="flex:1;min-width:0;">
+		<div class="lp-topbar" style="justify-content:flex-start;">
+			<button class="lp-menu-toggle" id="lp-menu-toggle" aria-label="Open menu">☰</button>
+		</div>
+
+		<div class="content lp-rd" style="padding:24px 28px;max-width:1360px;">
+			<a href="/repairs" style="font-size:13px;color:var(--lp-muted);text-decoration:none;display:inline-block;margin-bottom:12px;">← Back to My Repairs</a>
+			<div id="lp-rma-detail">Loading…</div>
+		</div>
+	</div>
+</div>
+
+<div class="lp-app-footer">
+	<span>2026© LEMCO IKE. All rights reserved.</span>
+	<div class="lp-footer-links">
+		<a href="/privacy-policy">Privacy policy</a>
+		<a href="/terms-of-service">Terms of service</a>
+	</div>
+</div>
+
+<style>
+.lp-nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:#4A5266;font-size:14px;text-decoration:none;margin-bottom:2px;}
+.lp-nav-item svg{width:18px;height:18px;flex-shrink:0;stroke:#8891A0;}
+.lp-nav-item:hover{background:#F5F6F9;}
+.lp-nav-active{background:var(--lp-blue-light);color:var(--lp-blue);font-weight:600;}
+.lp-nav-active svg{stroke:var(--lp-blue);}
+.lp-record-status{font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.lp-rma-section{background:#fff;border:1px solid var(--lp-border);border-radius:12px;padding:18px 20px;margin-bottom:16px;}
+.lp-rma-section h3{font-size:14px;margin:0 0 12px;}
+.lp-stepper{display:flex;justify-content:space-between;margin:8px 0 4px;}
+.lp-stepper-step{flex:1;text-align:center;font-size:11.5px;color:var(--lp-muted);position:relative;}
+.lp-stepper-dot{width:22px;height:22px;border-radius:50%;background:#F1F2F5;color:var(--lp-muted);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:12px;font-weight:700;}
+.lp-stepper-step.lp-done .lp-stepper-dot{background:var(--lp-blue);color:#fff;}
+.lp-stepper-step.lp-current .lp-stepper-dot{background:#fff;border:2px solid var(--lp-blue);color:var(--lp-blue);}
+.lp-rma-item-row{padding:10px 0;border-bottom:1px solid var(--lp-border);}
+.lp-rma-item-row:last-child{border-bottom:none;}
+.lp-rma-unit-card{border:1px solid var(--lp-border);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:13px;}
+.lp-rma-unit-card .lp-u-label{color:var(--lp-muted);font-size:12px;}
+.lp-msg{padding:8px 0;border-bottom:1px solid var(--lp-border);font-size:13px;}
+.lp-msg:last-child{border-bottom:none;}
+.lp-msg .lp-msg-meta{font-size:11.5px;color:var(--lp-muted);margin-top:2px;}
+.lp-rma-btn{border:none;cursor:pointer;padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:600;}
+.lp-rma-btn-primary{background:var(--lp-blue);color:#fff;}
+.lp-rma-btn-secondary{background:#F5F6F9;color:#1E2430;}
+.lp-rma-input{width:100%;padding:8px 10px;border:1px solid var(--lp-border);border-radius:8px;font-size:13.5px;margin-bottom:8px;}
+
+.lp-rd{font-size:13.5px;color:#1E2430;}
+.lp-rd svg{flex-shrink:0;}
+.rd-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin:2px 0 14px;}
+.rd-head h1{font-size:28px;margin:0 0 4px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;letter-spacing:-.3px;}
+.rd-meta{font-size:12.5px;color:#6b7280;}.rd-meta span+span::before{content:"|";margin:0 12px;color:#cbd2dc;}
+.rd-actions{display:flex;gap:10px;align-items:center;position:relative;}
+.rd-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:600;text-decoration:none;border:1px solid var(--lp-border);background:#fff;color:#1E2430;cursor:pointer;}
+.rd-btn-primary{background:var(--lp-blue);border-color:var(--lp-blue);color:#fff;}
+.rd-btn-outline{border-color:var(--lp-blue);color:var(--lp-blue);}
+.rd-menu{position:absolute;right:0;top:44px;background:#fff;border:1px solid var(--lp-border);border-radius:10px;box-shadow:0 8px 24px rgba(20,30,60,.12);min-width:220px;z-index:20;display:none;overflow:hidden;}
+.rd-menu.open{display:block;}.rd-menu a,.rd-menu button{display:block;width:100%;text-align:left;padding:10px 14px;font-size:13px;color:#1E2430;background:none;border:none;text-decoration:none;cursor:pointer;}.rd-menu a:hover,.rd-menu button:hover{background:#F5F6F9;}
+.rd-card{background:#fff;border:1px solid var(--lp-border);border-radius:12px;padding:18px 20px;margin-bottom:16px;}
+.rd-card h3{font-size:15px;margin:0 0 14px;}
+.rd-cardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;}.rd-cardhead h3{margin:0;}
+.rd-hpill{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.4px;padding:6px 14px;border-radius:7px;color:#fff;}
+.rd-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 11px;border-radius:6px;white-space:nowrap;}
+.rd-pill i{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;}
+.rd-soft{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:6px 14px;border-radius:8px;}
+.rd-steps{display:flex;padding:18px 10px 14px;overflow-x:auto;}
+.rd-step{flex:1;min-width:92px;text-align:center;position:relative;font-size:12.5px;color:#4A5266;}
+.rd-step::before{content:"";position:absolute;top:13px;left:-50%;width:100%;height:2px;background:#DDE2EA;}
+.rd-step:first-child::before{display:none;}
+.rd-step.done::before,.rd-step.cur::before{background:var(--lp-blue);}
+.rd-dot{position:relative;z-index:1;width:26px;height:26px;border-radius:50%;margin:0 auto 8px;background:#DDE2EA;color:#fff;display:flex;align-items:center;justify-content:center;}
+.rd-step.done .rd-dot{background:var(--lp-blue);}
+.rd-step.cur .rd-dot{background:#fff;border:2px solid var(--lp-blue);box-shadow:0 0 0 3px rgba(0,122,255,.15);}
+.rd-step.cur .rd-dot::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--lp-blue);}
+.rd-step.cur .rd-lbl{font-weight:700;color:#1E2430;}.rd-date{display:block;font-size:12px;color:#8891A0;min-height:15px;margin-top:2px;}
+.rd-banner{display:flex;align-items:center;gap:14px;border-radius:12px;padding:14px 18px;margin-bottom:16px;border:1px solid;}
+.rd-banner>div{flex:1;min-width:0;}.rd-banner b{display:block;margin-bottom:2px;font-size:14px;}.rd-banner span{color:#4A5266;font-size:12.5px;}
+.rd-banner em{font-style:normal;font-size:12.5px;white-space:nowrap;}
+.rd-banner.info{background:#EAF3FF;border-color:#CFE3FF;}.rd-banner.info b{color:#0B5ED7;}
+.rd-banner.ok{background:#EAF8EF;border-color:#C9ECD6;}.rd-banner.ok b,.rd-banner.ok em{color:#157347;}
+.rd-banner.warn{background:#FFF7ED;border-color:#FDE2C3;}.rd-banner.warn b{color:#B54708;}
+.rd-banner.bad{background:#FDECEC;border-color:#F8CFCF;}.rd-banner.bad b{color:#B42318;}
+.rd-layout{display:grid;grid-template-columns:2.3fr 1fr;gap:16px;align-items:start;}.rd-layout>*{min-width:0;}
+.rd-top{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;}.rd-top>*{min-width:0;}
+.rd-bottom{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-items:start;}.rd-bottom>*{min-width:0;}
+.rd-gridu{display:grid;grid-template-columns:1.45fr 1fr;gap:16px;align-items:start;}.rd-gridu>*{min-width:0;}
+.rd-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.rd-stat{border:1px solid;border-radius:10px;padding:12px 12px 10px;}.rd-stat svg{display:block;margin-bottom:8px;}.rd-stat b{display:block;font-size:22px;line-height:1.1;}.rd-stat small{color:#4A5266;font-size:12px;}
+.rd-kv{display:grid;grid-template-columns:128px 1fr;gap:8px 10px;font-size:13px;margin:0;align-items:center;}.rd-kv dt{color:#6b7280;margin:0;}.rd-kv dd{margin:0;font-weight:500;word-break:break-word;}
+.rd-sec{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;}
+.rd-chip{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:6px;display:inline-flex;align-items:center;gap:6px;}.rd-chip i{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.rd-chip.g{background:#E7F6EC;color:#157347;}.rd-chip.n{background:#F1F2F5;color:#4A5266;}.rd-chip.b{background:#E6F0FF;color:#0B5ED7;}
+.rd-hr{border:none;border-top:1px solid #EEF0F4;margin:14px 0;}
+.rd-tools{display:flex;gap:8px;align-items:center;}
+.rd-search{display:flex;align-items:center;gap:8px;border:1px solid var(--lp-border);border-radius:8px;padding:0 10px;height:34px;width:230px;}.rd-search input{border:none;outline:none;font-size:13px;flex:1;min-width:0;background:none;}
+.rd-iconbtn{width:34px;height:34px;border:1px solid var(--lp-border);border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.rd-table{width:100%;border-collapse:collapse;font-size:13px;}.rd-table th{text-align:left;color:#4A5266;font-weight:600;padding:10px 8px;background:#F7F8FB;font-size:12px;}
+.rd-table td{padding:11px 8px;border-top:1px solid #EEF0F4;}.rd-table tr.rd-link{cursor:pointer;}.rd-table tr.rd-link:hover{background:#F7F9FF;}.rd-tablewrap{overflow-x:auto;}
+.rd-pager{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12.5px;color:#6b7280;}.rd-pages{display:flex;gap:6px;}
+.rd-pages button{min-width:32px;height:32px;border:1px solid var(--lp-border);background:#fff;border-radius:7px;cursor:pointer;font-size:13px;}.rd-pages button.on{background:var(--lp-blue);border-color:var(--lp-blue);color:#fff;}.rd-pages button:disabled{opacity:.4;cursor:default;}
+.rd-file{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #EEF0F4;}.rd-file:first-of-type{border-top:none;}
+.rd-ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+.rd-file .rd-fn{flex:1;min-width:0;}.rd-file a.n{color:#1E2430;font-weight:600;text-decoration:none;word-break:break-all;}.rd-file small{display:block;color:#8891A0;font-weight:400;}
+.rd-file a.dl{color:#6b7280;text-decoration:none;font-size:18px;line-height:1;padding:2px 6px;}
+.rd-tl{list-style:none;margin:0;padding:0;}.rd-tl li{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 0 14px 34px;}
+.rd-tl li::before{content:"";position:absolute;left:10px;top:24px;bottom:-2px;width:2px;background:#DDE2EA;}.rd-tl li:last-child::before{display:none;}
+.rd-tl .ic{position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:#16A34A;display:flex;align-items:center;justify-content:center;}
+.rd-tl li.cur .ic{background:#fff;border:2px solid var(--lp-blue);box-shadow:0 0 0 3px rgba(0,122,255,.15);}.rd-tl li.cur .ic::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--lp-blue);}.rd-tl li.cur .ic svg{display:none;}
+.rd-tl b{display:block;font-size:13px;}.rd-tl li.cur b{color:var(--lp-blue);}.rd-tl small{display:block;color:#6b7280;}.rd-tl .tx{color:#4A5266;font-size:12.5px;padding-top:2px;}
+.rd-msg{display:flex;gap:10px;margin-bottom:12px;}.rd-av{width:34px;height:34px;border-radius:50%;background:#EAF3FF;color:var(--lp-blue);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rd-bub{background:#F3F5F9;border-radius:8px;padding:8px 12px;margin-top:4px;display:inline-block;max-width:100%;}.rd-bub.lemco{background:#E6F0FF;display:block;}
+.rd-compose{display:flex;gap:10px;margin-top:8px;}.rd-compose input{flex:1;padding:10px 12px;border:1px solid var(--lp-border);border-radius:8px;font-size:13.5px;min-width:0;}
+.rd-quote{background:#F3F5F9;border-radius:8px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;white-space:pre-wrap;}.rd-quote svg{margin-top:2px;}
+.rd-sub{font-size:12.5px;color:#6b7280;margin-bottom:6px;}
+.lp-rd .lp-rma-section{margin-bottom:16px;}
+@media(max-width:1100px){.rd-layout,.rd-top,.rd-bottom,.rd-gridu{grid-template-columns:1fr;}.rd-stats{grid-template-columns:repeat(2,1fr);}.rd-search{width:150px;}}
+</style>
+
+<script>
+(function () {
+	function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+	var rmaName = "{{ rma_name or '' }}";
+
+	fetch('/api/method/lemco_portal.api.get_user_display_name')
+		.then(function (r) { return r.json(); })
+		.then(function (res) {
+			var name = (res.message || 'U').trim();
+			document.getElementById('lp-avatar').firstChild.textContent = name ? name[0].toUpperCase() : 'U';
+		})
+		.catch(function () {});
+
+	var sidebar = document.getElementById('lp-sidebar');
+	var backdrop = document.getElementById('lp-sidebar-backdrop');
+	function closeSidebar() { sidebar.classList.remove('lp-sidebar-open'); backdrop.classList.remove('lp-sidebar-open'); }
+	document.getElementById('lp-menu-toggle').addEventListener('click', function () {
+		sidebar.classList.add('lp-sidebar-open');
+		backdrop.classList.add('lp-sidebar-open');
+	});
+	backdrop.addEventListener('click', closeSidebar);
+	sidebar.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeSidebar); });
+
+	var STAGES = ['Submitted', 'Approved', 'Received', 'Repair', 'Ready', 'Returned'];
+	var STAGE_INDEX = {
+		'Draft': -1,
+		'Awaiting Approval': 0, 'Action Required': 0,
+		'Approved - Awaiting Shipment': 1,
+		'Received': 2,
+		'Under Repair': 3, 'Awaiting Customer Approval': 3,
+		'Ready for Return': 4,
+		'Shipped': 5,
+		// One past the last stage index (STAGES has 6 entries, 0-5) so every
+		// step - including "Returned" - renders as done (checkmark) once
+		// Closed, instead of the final step staying stuck on "in progress."
+		'Closed': 6,
+	};
+	var TERMINAL_NEGATIVE = ['Rejected', 'Cancelled'];
+
+	function renderStepper(status) {
+		if (TERMINAL_NEGATIVE.indexOf(status) !== -1) {
+			return '<div style="font-size:13px;color:#E23A5B;font-weight:600;">This RMA was ' + esc(status.toLowerCase()) + '.</div>';
+		}
+		var current = STAGE_INDEX.hasOwnProperty(status) ? STAGE_INDEX[status] : -1;
+		return '<div class="lp-stepper">' + STAGES.map(function (label, i) {
+			var cls = i < current ? 'lp-done' : (i === current ? 'lp-current' : '');
+			var mark = i < current ? '✓' : (i + 1);
+			return '<div class="lp-stepper-step ' + cls + '"><div class="lp-stepper-dot">' + mark + '</div>' + label + '</div>';
+		}).join('') + '</div>';
+	}
+
+	function renderUnit(u) {
+		var rows = [
+			['Item ID', u.name],
+			['Coverage', u.service_coverage],
+			['Diagnosis', u.customer_visible_diagnosis],
+			['Work performed', u.customer_work_performed],
+			['Test result', u.customer_test_notes],
+			['Resolution', u.resolution],
+		];
+		if (u.resolution_explanation) rows.push(['Details', u.resolution_explanation]);
+
+		var approveBtns = '';
+		if (u.service_coverage === 'Non-Warranty' && u.repair_decision === 'Pending' && u.customer_repair_price) {
+			approveBtns = '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--lp-border);">' +
+				'<div style="font-weight:600;margin-bottom:4px;">Repair Price: €' + esc(String(u.customer_repair_price)) + '</div>' +
+				(u.customer_visible_comments ? '<div style="color:var(--lp-muted);margin-bottom:8px;">' + esc(u.customer_visible_comments) + '</div>' : '') +
+				'<div style="display:flex;gap:8px;">' +
+				'<button class="lp-rma-btn lp-rma-btn-primary lp-approve-btn" data-unit="' + esc(u.name) + '" data-decision="Approved">Approve Repair</button>' +
+				'<button class="lp-rma-btn lp-rma-btn-secondary lp-approve-btn" data-unit="' + esc(u.name) + '" data-decision="Declined">Decline Repair</button>' +
+				'</div></div>';
+		} else if (u.repair_decision && u.repair_decision !== 'Pending') {
+			approveBtns = '<div style="margin-top:8px;font-size:12.5px;color:var(--lp-muted);">Repair ' + esc(u.repair_decision.toLowerCase()) + '.</div>';
+		}
+
+		return '<div class="lp-rma-unit-card">' +
+			rows.filter(function (r) { return r[1]; }).map(function (r) {
+				return '<div><span class="lp-u-label">' + esc(r[0]) + ':</span> ' + esc(String(r[1])) + '</div>';
+			}).join('') +
+			approveBtns +
+			'</div>';
+	}
+
+	function bindApproveButtons() {
+		document.querySelectorAll('.lp-approve-btn').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				btn.disabled = true;
+				var data = new FormData();
+				data.append('unit_name', btn.dataset.unit);
+				data.append('decision', btn.dataset.decision);
+				fetch('/api/method/lemco_portal.api.approve_repair', {
+					method: 'POST',
+					headers: { 'X-Frappe-CSRF-Token': (window.frappe && frappe.csrf_token) || '' },
+					body: data,
+				}).then(function () { load(); });
+			});
+		});
+	}
+
+	function bindMessageForm() {
+		var form = document.getElementById('lp-msg-form');
+		if (!form) return;
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var text = form.message.value.trim();
+			if (!text) return;
+			var data = new FormData();
+			data.append('rma_name', rmaName);
+			data.append('message', text);
+			fetch('/api/method/lemco_portal.api.send_rma_message', {
+				method: 'POST',
+				headers: { 'X-Frappe-CSRF-Token': (window.frappe && frappe.csrf_token) || '' },
+				body: data,
+			}).then(function () { load(); });
+		});
+	}
+
+	function bindTrackingForm() {
+		var form = document.getElementById('lp-tracking-form');
+		if (!form) return;
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var data = new FormData();
+			data.append('rma_name', rmaName);
+			data.append('courier_vendor', form.courier_vendor.value);
+			data.append('tracking_no', form.tracking_no.value);
+			fetch('/api/method/lemco_portal.api.add_inbound_tracking', {
+				method: 'POST',
+				headers: { 'X-Frappe-CSRF-Token': (window.frappe && frappe.csrf_token) || '' },
+				body: data,
+			}).then(function () { load(); });
+		});
+	}
+
+	function renderReturnAddressSection(rma) {
+		if (rma.return_address_snapshot) {
+			return '<div class="lp-rma-section"><h3>Return Address</h3>' +
+				'<div style="font-size:13px;">' + esc(rma.return_address_snapshot) + '</div>' +
+				'<div style="font-size:12px;color:var(--lp-muted);margin-top:4px;">Confirmed - this is where your repaired equipment will be shipped.</div>' +
+				'</div>';
+		}
+		return '<div class="lp-rma-section" id="lp-return-address-section"><h3>Confirm Return Address</h3>' +
+			'<p style="font-size:12.5px;color:var(--lp-muted);">Your repair is ready to be returned - please confirm where it should be shipped.</p>' +
+			'<div style="display:flex;gap:16px;margin-bottom:10px;">' +
+			'<label style="font-size:13px;"><input type="radio" name="address_type" value="Existing Address" checked> Existing address</label>' +
+			'<label style="font-size:13px;"><input type="radio" name="address_type" value="Alternative Address"> Different address</label>' +
+			'</div>' +
+			'<div id="lp-existing-address-block"><select class="lp-rma-input" id="lp-existing-address-select"><option>Loading…</option></select></div>' +
+			'<div id="lp-alt-address-block" style="display:none;">' +
+			'<input class="lp-rma-input" id="lp-alt-recipient" placeholder="Recipient / Company">' +
+			'<input class="lp-rma-input" id="lp-alt-line1" placeholder="Address Line 1">' +
+			'<input class="lp-rma-input" id="lp-alt-line2" placeholder="Address Line 2">' +
+			'<input class="lp-rma-input" id="lp-alt-city" placeholder="City">' +
+			'<input class="lp-rma-input" id="lp-alt-postcode" placeholder="Postcode">' +
+			'<input class="lp-rma-input" id="lp-alt-country" placeholder="Country">' +
+			'</div>' +
+			'<button type="button" id="lp-confirm-address-btn" class="lp-rma-btn lp-rma-btn-primary">Confirm Return Address</button>' +
+			'<div id="lp-address-error" style="color:#E23A5B;font-size:12.5px;margin-top:8px;display:none;"></div>' +
+			'</div>';
+	}
+
+	function bindReturnAddressForm(rma) {
+		var section = document.getElementById('lp-return-address-section');
+		if (!section) return;
+
+		var existingBlock = document.getElementById('lp-existing-address-block');
+		var altBlock = document.getElementById('lp-alt-address-block');
+		function syncAddressBlocks() {
+			var checked = section.querySelector('input[name="address_type"]:checked').value;
+			existingBlock.style.display = checked === 'Existing Address' ? 'block' : 'none';
+			altBlock.style.display = checked === 'Alternative Address' ? 'block' : 'none';
+		}
+		section.querySelectorAll('input[name="address_type"]').forEach(function (r) {
+			r.addEventListener('change', syncAddressBlocks);
+		});
+		syncAddressBlocks();
+
+		fetch('/api/method/lemco_portal.api.get_customer_return_addresses')
+			.then(function (r) { return r.json(); })
+			.then(function (res) {
+				var addrs = res.message || [];
+				var select = document.getElementById('lp-existing-address-select');
+				if (!addrs.length) {
+					select.innerHTML = '<option value="">No saved addresses - use "Different address" below</option>';
+					return;
+				}
+				select.innerHTML = addrs.map(function (a) {
+					var line = [a.address_line1, a.city, a.country].filter(Boolean).join(', ');
+					return '<option value="' + esc(a.name) + '">' + esc(line) + '</option>';
+				}).join('');
+			});
+
+		document.getElementById('lp-confirm-address-btn').addEventListener('click', function () {
+			var errorBox = document.getElementById('lp-address-error');
+			errorBox.style.display = 'none';
+			var type = section.querySelector('input[name="address_type"]:checked').value;
+			var data = new FormData();
+			data.append('rma_name', rmaName);
+			data.append('address_type', type);
+			if (type === 'Existing Address') {
+				data.append('address_name', document.getElementById('lp-existing-address-select').value);
+			} else {
+				data.append('alternative_address', JSON.stringify({
+					recipient: document.getElementById('lp-alt-recipient').value,
+					address_line1: document.getElementById('lp-alt-line1').value,
+					address_line2: document.getElementById('lp-alt-line2').value,
+					city: document.getElementById('lp-alt-city').value,
+					postcode: document.getElementById('lp-alt-postcode').value,
+					country: document.getElementById('lp-alt-country').value,
+				}));
+			}
+			fetch('/api/method/lemco_portal.api.set_return_address', {
+				method: 'POST',
+				headers: { 'X-Frappe-CSRF-Token': (window.frappe && frappe.csrf_token) || '' },
+				body: data,
+			})
+				.then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+				.then(function (res) {
+					if (!res.ok) {
+						var msg = (res.body && res.body._server_messages) ? JSON.parse(res.body._server_messages)[0] : 'Could not save address.';
+						try { msg = JSON.parse(msg).message; } catch (e) {}
+						errorBox.textContent = msg;
+						errorBox.style.display = 'block';
+						return;
+					}
+					load();
+				});
+		});
+	}
+
+	function bindProductAttachmentForm(rma) {
+		var form = document.getElementById('lp-product-attach-form');
+		if (!form) return;
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var file = form.file.files[0];
+			if (!file) return;
+			var data = new FormData();
+			data.append('rma_name', rmaName);
+			data.append('rma_item', form.rma_item.value);
+			data.append('attachment_field', form.attachment_field.value);
+			data.append('file', file);
+			fetch('/api/method/lemco_portal.api.upload_rma_item_attachment', {
+				method: 'POST',
+				headers: { 'X-Frappe-CSRF-Token': (window.frappe && frappe.csrf_token) || '' },
+				body: data,
+			}).then(function (r) {
+				if (!r.ok) throw new Error('upload failed');
+				return r.json();
+			}).then(function () {
+				load();
+			}).catch(function () {
+				var msg = document.getElementById('lp-product-attach-error');
+				if (msg) { msg.textContent = 'Could not upload the attachment.'; msg.style.display = 'block'; }
+			});
+		});
+	}
+
+var qs = new URLSearchParams(location.search), unitName = qs.get('unit'), itemName = qs.get('item'), isProduct = !!(unitName || itemName);
+var IC = {
+ check:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+ chev:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
+ chevd:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8891A0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
+ wrench:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0B5ED7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 01-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 015.4-5.4l-3-3z"/></svg>',
+ okc:'<svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#16A34A"/><path d="M7 12.5l3.5 3.5L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ okc_s:'<svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#16A34A"/><path d="M7 12.5l3.5 3.5L17 9" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ warn:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B54708" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18h.01"/></svg>',
+ bad:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>',
+ box:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>',
+ okt:'<svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#16A34A"/><path d="M7.5 12.5l3 3L16.5 9" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ wr:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B5ED7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 01-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 015.4-5.4l-3-3z"/></svg>',
+ clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ chat:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/></svg>',
+ dots:'<svg width="16" height="16" viewBox="0 0 24 24" fill="#4A5266"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
+ plus:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#007AFF" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+ search:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8891A0" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+ filter:'<svg width="15" height="15" viewBox="0 0 24 24" fill="#4A5266"><path d="M3 4h18l-7 8.5V20l-4-2v-5.5L3 4z"/></svg>',
+ quote:'<svg width="22" height="22" viewBox="0 0 24 24" fill="#8891A0"><path d="M4 17c0-4 1-7 5-9l1 2c-2 1-3 2-3 4h3v5H4v-2zm10 0c0-4 1-7 5-9l1 2c-2 1-3 2-3 4h3v5h-6v-2z"/></svg>'
+};
+var PILL = {'Repaired':['#157347','#E7F6EC'],'In repair':['#0B5ED7','#E6F0FF'],'Diagnosing':['#B54708','#FFF1DC'],'Declined':['#B42318','#FDECEC'],
+ 'No Fault Found':['#157347','#E7F6EC'],'Replacement':['#157347','#E7F6EC'],'Unrepairable':['#B42318','#FDECEC'],'Returned Unrepaired':['#4A5266','#F1F2F5'],'Awaiting approval':['#B54708','#FFF1DC'],'Approved':['#0B5ED7','#E6F0FF'],'Partially approved':['#B54708','#FFF1DC'],'Rejected':['#B42318','#FDECEC'],'Received':['#0B5ED7','#E6F0FF']};
+var HEAD = {'Draft':['#8891A0','DRAFT'],'Awaiting Approval':['#F59E0B','AWAITING APPROVAL'],'Action Required':['#F59E0B','ACTION REQUIRED'],
+ 'Approved - Awaiting Shipment':['#007AFF','APPROVED'],'Received':['#007AFF','RECEIVED'],'Under Repair':['#007AFF','IN REPAIR'],
+ 'Awaiting Customer Approval':['#F59E0B','AWAITING YOUR APPROVAL'],'Ready for Return':['#16A34A','READY FOR RETURN'],'Shipped':['#16A34A','SHIPPED'],
+ 'Closed':['#16A34A','CLOSED'],'Rejected':['#DC2626','REJECTED'],'Cancelled':['#8891A0','CANCELLED']};
+var BANNER = {
+ 'Awaiting Approval':['warn','Your request is awaiting approval.','Please do not ship your equipment until Lemco approves the repair request.'],
+ 'Approved - Awaiting Shipment':['info','Your RMA is approved.','Please ship the equipment to Lemco and add the tracking number below.'],
+ 'Received':['info','We have received your equipment.','Our technical team will start working on it shortly.'],
+ 'Under Repair':['info','Your equipment is currently being repaired.','Our technical team is working on your items. No action is required from you at this time. We\u2019ll notify you as soon as the repair is completed.'],
+ 'Awaiting Customer Approval':['warn','Your approval is needed.','Please review the repair price for your items below.'],
+ 'Ready for Return':['ok','Your repair is complete.','Your equipment is ready for return shipment.'],
+ 'Shipped':['ok','Your equipment has been shipped back to you.','Use the tracking number below to follow the delivery.'],
+ 'Closed':['ok','This RMA is closed.','Thank you for choosing Lemco.'],
+ 'Rejected':['bad','This RMA was rejected.','Please contact support if you have questions.'],
+ 'Cancelled':['bad','This RMA was cancelled.','']};
+var BICON = {info:IC.wrench, ok:IC.okc, warn:IC.warn, bad:IC.bad};
+function headPill(s) { var h = HEAD[s] || ['#8891A0', String(s).toUpperCase()]; return '<span class="rd-hpill" style="background:' + h[0] + ';">' + esc(h[1]) + '</span>'; }
+function dotPill(t) { var c = PILL[t] || ['#4A5266', '#F1F2F5']; return '<span class="rd-pill" style="color:' + c[0] + ';background:' + c[1] + ';"><i></i>' + esc(t) + '</span>'; }
+function softPill(t) { var c = PILL[t] || ['#4A5266', '#F1F2F5']; return '<span class="rd-soft" style="color:' + c[0] + ';background:' + c[1] + ';">' + (c[0] === '#157347' ? IC.okc_s : '') + esc(t) + '</span>'; }
+function dt(d, t) { if (!d) return '\u2014'; var x = new Date(String(d).replace(' ', 'T')); if (isNaN(x)) return esc(d); var o = {day:'numeric',month:'short',year:'numeric'}; if (t) { o.hour = '2-digit'; o.minute = '2-digit'; } return x.toLocaleString('en-GB', o); }
+function sd(d) { if (!d) return ''; var x = new Date(String(d).replace(' ', 'T')); return isNaN(x) ? '' : x.toLocaleDateString('en-GB', {day:'numeric',month:'short'}); }
+function fsz(n) { if (!n) return ''; return n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
+function kv(a) { return '<dl class="rd-kv">' + a.map(function (x) { return '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>'; }).join('') + '</dl>'; }
+
+function stepsHtml(p) {
+ return p.stages.map(function (s, i) {
+  var c = i < p.current ? 'done' : (i === p.current ? 'cur' : '');
+  var dot = c === 'done' ? IC.check : (c === '' ? IC.chev : '');
+  return '<div class="rd-step ' + c + '"><div class="rd-dot">' + dot + '</div><span class="rd-lbl">' + esc(s.label) + '</span><span class="rd-date">' + (s.date ? '(' + sd(s.date) + ')' : '') + '</span></div>';
+ }).join('');
+}
+function timelineHtml(ev) {
+ var last = ev.length - 1;
+ return '<ul class="rd-tl">' + ev.map(function (e, i) { return { e: e, i: i }; }).reverse().map(function (o) {
+  return '<li class="' + (o.i === last ? 'cur' : '') + '"><span class="ic">' + IC.check + '</span><div><b>' + esc(o.e.title) + '</b><small>' + dt(o.e.date, 1) + '</small></div><div class="tx">' + esc(o.e.text || '') + '</div></li>';
+ }).join('') + '</ul>';
+}
+function fileIcon(name) {
+ var e = (name.split('.').pop() || '').toLowerCase();
+ if (e === 'pdf') return ['#FDECEC', '#DC2626', 'PDF'];
+ if (/^(jpe?g|png|gif|webp|heic|bmp)$/.test(e)) return ['#E6F0FF', '#007AFF', 'IMG'];
+ if (/^(mp4|mov|m4v|webm|avi|mkv|3gp)$/.test(e)) return ['#F1E8FF', '#7C3AED', 'VID'];
+ return ['#EEF0F4', '#6b7280', (e || 'FILE').toUpperCase().slice(0, 4)];
+}
+function filesHtml(list) {
+ if (!list || !list.length) return '<div style="color:var(--lp-muted);">No attachments.</div>';
+ return list.map(function (a) {
+  var ic = fileIcon(a.file_name), meta = [fsz(a.file_size), a.creation ? dt(a.creation) : ''].filter(Boolean).join(' \u00b7 ');
+  return '<div class="rd-file"><div class="rd-ico" style="background:' + ic[0] + ';color:' + ic[1] + ';">' + ic[2] + '</div><div class="rd-fn"><a class="n" href="' + esc(a.file_url) + '" target="_blank" rel="noopener">' + esc(a.file_name) + '</a><small>' + esc(meta) + (a.kind ? ' \u00b7 ' + esc(a.kind) : '') + '</small></div><a class="dl" href="' + esc(a.file_url) + '" target="_blank" rel="noopener" title="Open">\u22ef</a></div>';
+ }).join('');
+}
+function messagesHtml(list) {
+ var h = (list || []).map(function (m) {
+  var who = m.comment_email || '', lem = /@lemco\./i.test(who);
+  return '<div class="rd-msg"><div class="rd-av">' + (lem ? 'LS' : esc((who[0] || 'U').toUpperCase())) + '</div><div style="flex:1;min-width:0;"><b>' + (lem ? 'Lemco Support' : esc(who)) + '</b> <small style="color:#8891A0;margin-left:6px;">' + dt(m.creation, 1) + '</small><div class="rd-bub ' + (lem ? 'lemco' : '') + '">' + esc(m.content) + '</div></div></div>';
+ }).join('') || '<div style="color:var(--lp-muted);margin-bottom:10px;">No messages yet.</div>';
+ return h + '<form id="lp-msg-form" class="rd-compose"><input name="message" placeholder="Write a message\u2026" autocomplete="off"><button type="submit" class="rd-btn rd-btn-primary" style="padding:9px 26px;">Send</button></form>';
+}
+function approveBox(u) {
+ if (u.service_coverage === 'Non-Warranty' && u.repair_decision === 'Pending' && u.customer_repair_price) {
+  return '<div class="rd-card" style="border-color:#FDE2C3;background:#FFFBF4;"><h3>Repair approval needed' + (u.item_code ? ' \u2014 ' + esc(u.item_code) : '') + '</h3>' +
+   '<div style="font-weight:600;margin-bottom:4px;">Repair Price: \u20ac' + esc(String(u.customer_repair_price)) + '</div>' +
+   (u.customer_visible_comments ? '<div style="color:var(--lp-muted);margin-bottom:10px;">' + esc(u.customer_visible_comments) + '</div>' : '') +
+   '<div style="display:flex;gap:8px;"><button class="lp-rma-btn lp-rma-btn-primary lp-approve-btn" data-unit="' + esc(u.name) + '" data-decision="Approved">Approve Repair</button>' +
+   '<button class="lp-rma-btn lp-rma-btn-secondary lp-approve-btn" data-unit="' + esc(u.name) + '" data-decision="Declined">Decline Repair</button></div></div>';
+ }
+ if (u.repair_decision && u.repair_decision !== 'Pending') return '<div class="rd-sub">Repair ' + esc(u.repair_decision.toLowerCase()) + '.</div>';
+ return '';
+}
+function headerHtml(title, metaParts, backHref, backText, reportUrl) {
+ var back = document.querySelector('.lp-rd > a'); if (back) { back.setAttribute('href', backHref); back.textContent = '\u2190 ' + backText; }
+ return '<div class="rd-head"><div><h1>' + title + '</h1><div class="rd-meta">' + metaParts.map(function (m) { return '<span>' + m + '</span>'; }).join('') + '</div></div>' +
+  '<div class="rd-actions"><button type="button" class="rd-btn" id="rd-more" aria-label="More">' + IC.dots + '</button>' +
+  '<div class="rd-menu" id="rd-menu"><button type="button" onclick="window.print()">Print this page</button>' + (reportUrl ? '<a href="' + esc(reportUrl) + '" target="_blank">Download Repair &amp; Service Report</a>' : '') + '<a href="/repairs">All my repairs</a></div>' +
+  '<a class="rd-btn rd-btn-primary" href="/helpdesk/tickets/new">' + IC.chat + 'Contact Support</a></div></div>';
+}
+function bindMenu() {
+ var b = document.getElementById('rd-more'), m = document.getElementById('rd-menu'); if (!b) return;
+ b.addEventListener('click', function (e) { e.stopPropagation(); m.classList.toggle('open'); });
+ document.addEventListener('click', function () { m.classList.remove('open'); });
+}
+function bannerHtml(kind, title, text, right) { return '<div class="rd-banner ' + kind + '">' + BICON[kind] + '<div><b>' + title + '</b><span>' + text + '</span></div>' + (right ? '<em>' + right + '</em>' : '') + '</div>'; }
+
+var tbl = { q: '', st: '', page: 1, per: 8, units: [] };
+function drawTable() {
+ var q = tbl.q.toLowerCase(), rows = tbl.units.filter(function (u) {
+  return (!tbl.st || u.status === tbl.st) && (!q || [u.item_code, u.item_name, u.serial, u.problem, u.status].join(' ').toLowerCase().indexOf(q) > -1);
+ });
+ var pages = Math.max(1, Math.ceil(rows.length / tbl.per)); if (tbl.page > pages) tbl.page = pages;
+ var from = (tbl.page - 1) * tbl.per, part = rows.slice(from, from + tbl.per);
+ document.getElementById('rd-tbody').innerHTML = part.map(function (u) {
+  var n = tbl.units.indexOf(u) + 1;
+  return '<tr class="rd-link" data-k="' + esc(u.key) + '"><td>' + n + '</td><td>' + esc(u.item_code || '') + '</td><td>' + esc(u.item_name || '') + (u.qty > 1 ? ' <span style="color:#8891A0;">\u00d7 ' + esc(String(u.qty)) + '</span>' : '') + '</td><td>' + esc(u.serial || '\u2014') + '</td><td>' + esc(u.problem || '\u2014') + '</td><td>' + dotPill(u.status) + '</td><td>' + IC.chevd + '</td></tr>';
+ }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--lp-muted);padding:18px;">No products found.</td></tr>';
+ var btns = '<button ' + (tbl.page === 1 ? 'disabled' : '') + ' data-p="' + (tbl.page - 1) + '">\u2039</button>';
+ for (var i = 1; i <= pages; i++) btns += '<button class="' + (i === tbl.page ? 'on' : '') + '" data-p="' + i + '">' + i + '</button>';
+ btns += '<button ' + (tbl.page === pages ? 'disabled' : '') + ' data-p="' + (tbl.page + 1) + '">\u203a</button>';
+ document.getElementById('rd-pager').innerHTML = '<div class="rd-pages">' + btns + '</div><div>' + (rows.length ? 'Showing ' + (from + 1) + '\u2013' + (from + part.length) + ' of ' + rows.length + ' products' : '') + '</div>';
+ document.querySelectorAll('#rd-pager button[data-p]').forEach(function (b) { b.addEventListener('click', function () { tbl.page = +b.dataset.p; drawTable(); }); });
+ document.querySelectorAll('tr.rd-link').forEach(function (tr) { tr.addEventListener('click', function () { location.href = location.pathname + '?' + tr.dataset.k.replace(/=(.*)$/, function (m, v) { return '=' + encodeURIComponent(v); }); }); });
+}
+
+function render(rma) {
+ var units = rma.units || [], prods = rma.products || [], c = { t: rma.total_units || prods.length, rep: 0, inr: 0, pen: 0 };
+ var DONE = ['Repaired', 'No Fault Found', 'Unrepairable', 'Replacement', 'Returned Unrepaired', 'Declined'];
+ prods.forEach(function (p) { var q = +p.qty || 1; if (DONE.indexOf(p.status) > -1) c.rep += q; else if (p.status === 'In repair') c.inr += q; else c.pen += q; });
+ var html = headerHtml(esc(rma.name) + ' ' + headPill(rma.status),
+  ['Created: ' + dt(rma.request_date, 1), 'Updated: ' + dt(rma.modified, 1), 'Customer reference: ' + esc(rma.customer_reference || '\u2014'), 'Total units: ' + esc(String(rma.total_units))], '/repairs', 'Back to My Repairs', rma.final_report_file);
+ html += '<div class="rd-card rd-steps">' + stepsHtml(rma.progress) + '</div>';
+ if (rma.customer_action_required) html += bannerHtml('warn', 'Action required', esc(rma.customer_action_message || 'Please check the messages below.'));
+ var bn = BANNER[rma.status]; if (bn) html += bannerHtml(bn[0], bn[1], bn[2]);
+
+ var inChip = rma.received_on ? '<span class="rd-chip g"><i></i>Delivered</span>' : (rma.inbound_tracking_no ? '<span class="rd-chip b"><i></i>In transit</span>' : '<span class="rd-chip n">Awaiting shipment</span>');
+ var outChip = rma.shipped_on ? '<span class="rd-chip g"><i></i>Shipped</span>' : '<span class="rd-chip n">Not yet shipped</span>';
+ var stat = function (bg, bd, icon, n, l) { return '<div class="rd-stat" style="background:' + bg + ';border-color:' + bd + ';">' + icon + '<b>' + n + '</b><small>' + l + '</small></div>'; };
+
+ html += '<div class="rd-layout"><div>' +
+  '<div class="rd-top"><div class="rd-card"><h3>Products (' + esc(String(rma.total_units)) + ' units)</h3><div class="rd-stats">' +
+   stat('#F7F8FB', '#E3E7EE', IC.box, c.t, 'Total units') + stat('#EAF8EF', '#C9ECD6', IC.okt, c.rep, 'Completed') + stat('#EAF3FF', '#CFE3FF', IC.wr, c.inr, 'In repair') + stat('#FFF7ED', '#FDE2C3', IC.clock, c.pen, 'Pending diagnosis') + '</div></div>' +
+  '<div class="rd-card"><h3>RMA Information</h3>' + kv([['Customer reference', esc(rma.customer_reference || '\u2014')], ['Created by', esc(rma.created_by || '\u2014') + ' (Customer Portal)'], ['Created on', dt(rma.request_date, 1)], ['Last updated', dt(rma.modified, 1)], ['Responsible (Lemco)', esc(rma.responsible || '\u2014')]]) + '</div></div>' +
+  '<div class="rd-card"><div class="rd-cardhead"><h3>Products in this RMA</h3><div class="rd-tools"><div class="rd-search">' + IC.search + '<input id="rd-q" placeholder="Search products\u2026"></div>' +
+   '<div style="position:relative;"><button type="button" class="rd-iconbtn" id="rd-fbtn" aria-label="Filter">' + IC.filter + '</button><div class="rd-menu" id="rd-fmenu"><button data-st="">All statuses</button><button data-st="Repaired">Repaired</button><button data-st="In repair">In repair</button><button data-st="Diagnosing">Diagnosing</button><button data-st="Awaiting approval">Awaiting approval</button><button data-st="Approved">Approved</button><button data-st="Received">Received</button></div></div></div></div>' +
+   '<div class="rd-tablewrap"><table class="rd-table"><thead><tr><th>#</th><th>Item Code</th><th>Product Name</th><th>Serial / LOT No.</th><th>Reported Issue</th><th>Status</th><th></th></tr></thead><tbody id="rd-tbody"></tbody></table></div><div class="rd-pager" id="rd-pager"></div></div>' +
+  '</div><div>' +
+  '<div class="rd-card"><h3>Shipping Information</h3>' +
+   '<div class="rd-sec"><span>Inbound Shipment</span>' + inChip + '</div>' + kv([['Carrier', esc(rma.inbound_courier_vendor || '\u2014')], ['Tracking number', esc(rma.inbound_tracking_no || '\u2014')], ['Delivered on', dt(rma.received_on)]]) +
+   '<hr class="rd-hr"><div class="rd-sec"><span>Return Shipment</span>' + outChip + '</div>' + kv([['Carrier', esc(rma.outbound_courier_vendor || '\u2014')], ['Tracking number', esc(rma.outbound_tracking_no || '\u2014')], [rma.shipped_on ? 'Shipped on' : 'Estimated ship date', rma.shipped_on ? dt(rma.shipped_on) : '\u2014']]) + '</div>' +
+  '<div class="rd-card"><div class="rd-cardhead"><h3>RMA Attachments (' + (rma.attachments || []).length + ')</h3><button type="button" class="rd-btn rd-btn-outline" id="rd-addbtn">' + IC.plus + 'Add attachment</button></div>' + filesHtml(rma.attachments) +
+   '<form id="lp-product-attach-form" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid #EEF0F4;">' +
+   '<select class="lp-rma-input" name="rma_item" required>' + (rma.items || []).map(function (it) { return '<option value="' + esc(it.name) + '">' + esc(it.item_name || it.item_code) + '</option>'; }).join('') + '</select>' +
+   '<select class="lp-rma-input" name="attachment_field" required><option value="photo_of_product">Photo of Product</option><option value="photo_product_label">Photo of Product Label</option><option value="video">Video</option><option value="supporting_document">Supporting Document</option></select>' +
+   '<input type="file" name="file" required style="margin-bottom:8px;display:block;max-width:100%;"><button type="submit" class="rd-btn">Upload</button><div id="lp-product-attach-error" style="color:#E23A5B;font-size:12.5px;margin-top:8px;display:none;"></div></form></div>' +
+  '</div></div>';
+
+ units.forEach(function (u) { if (u.service_coverage === 'Non-Warranty' && u.repair_decision === 'Pending' && u.customer_repair_price) html += approveBox(u); });
+ if (rma.status === 'Ready for Return' || rma.return_address_snapshot) html += renderReturnAddressSection(rma);
+ html += '<div class="rd-card"><h3>Inbound Tracking (optional)</h3><form id="lp-tracking-form" style="max-width:420px;"><input class="lp-rma-input" name="courier_vendor" placeholder="Courier vendor" value="' + esc(rma.inbound_courier_vendor || '') + '"><input class="lp-rma-input" name="tracking_no" placeholder="Tracking number" value="' + esc(rma.inbound_tracking_no || '') + '"><button type="submit" class="rd-btn">Save</button></form></div>';
+ html += '<div class="rd-bottom"><div class="rd-card"><h3>Activity Timeline</h3>' + timelineHtml(rma.timeline || []) + '</div><div class="rd-card"><h3>Messages (' + (rma.messages || []).length + ')</h3>' + messagesHtml(rma.messages) + '</div></div>';
+
+ document.getElementById('lp-rma-detail').innerHTML = html;
+ tbl.units = prods; tbl.page = 1; tbl.q = ''; tbl.st = ''; drawTable();
+ document.getElementById('rd-q').addEventListener('input', function (e) { tbl.q = e.target.value; tbl.page = 1; drawTable(); });
+ var fm = document.getElementById('rd-fmenu');
+ document.getElementById('rd-fbtn').addEventListener('click', function (e) { e.stopPropagation(); fm.classList.toggle('open'); });
+ fm.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { tbl.st = b.dataset.st; tbl.page = 1; fm.classList.remove('open'); drawTable(); }); });
+ document.addEventListener('click', function () { fm.classList.remove('open'); });
+ document.getElementById('rd-addbtn').addEventListener('click', function () { var f = document.getElementById('lp-product-attach-form'); f.style.display = f.style.display === 'none' ? 'block' : 'none'; });
+ bindMenu(); bindApproveButtons(); bindMessageForm(); bindTrackingForm(); bindReturnAddressForm(rma); bindProductAttachmentForm(rma);
+}
+
+function renderUnitPage(u) {
+ var p = u.problem || {};
+ var html = headerHtml(esc(u.item_code || 'Product') + (u.customer_serial_lot_no ? ' <span style="font-weight:600;">(SN: ' + esc(u.customer_serial_lot_no) + ')</span>' : '') + ' ' + softPill(u.status),
+  ['RMA: <a href="' + location.pathname + '" style="color:inherit;">' + esc(u.rma) + '</a>', 'Created: ' + dt(u.request_date, 1), 'Updated: ' + dt(u.modified, 1)], location.pathname, 'Back to RMA', null);
+ html += '<div class="rd-card rd-steps">' + stepsHtml(u.progress) + '</div>';
+ if (u.technical_complete && ['No Fault Found', 'Unrepairable', 'Replacement', 'Returned Unrepaired'].indexOf(u.status) > -1) {
+  var OUT = {'No Fault Found':['ok','No fault was found on this unit.'],'Unrepairable':['bad','This unit could not be repaired.'],'Replacement':['ok','This unit has been replaced.'],'Returned Unrepaired':['warn','This unit will be returned unrepaired.']}[u.status];
+  html += bannerHtml(OUT[0], OUT[1], esc(u.resolution_explanation || 'It will be prepared for return shipment together with the rest of your RMA items.'), u.completed_on ? 'Completed on ' + dt(u.completed_on) : '');
+ } else if (u.technical_complete && u.status === 'Repaired') html += bannerHtml('ok', 'This unit has been repaired and passed final testing.', 'The unit is fully operational and will be prepared for return shipment together with the rest of your RMA items.', u.completed_on ? 'Completed on ' + dt(u.completed_on) : '');
+ else if (u.status === 'In repair') html += bannerHtml('info', 'This unit is currently being repaired.', 'Our technical team is working on it. No action is required from you.');
+ else if (u.status === 'Diagnosing') html += bannerHtml('warn', 'This unit is waiting for diagnosis.', 'We will update this page as soon as the diagnosis is completed.');
+ else if (u.status === 'Awaiting approval') html += bannerHtml('warn', 'This product is awaiting approval.', 'Please do not ship your equipment until Lemco approves the repair request.');
+ else if (u.status === 'Approved') html += bannerHtml('info', 'This product is approved for repair.', 'Please ship it to Lemco and add the tracking number on the RMA page.');
+ else if (u.status === 'Received') html += bannerHtml('info', 'We have received this product.', 'Our technical team will start working on it shortly.');
+ else if (u.status === 'Rejected') html += bannerHtml('bad', 'This product was not approved for repair.', 'Please contact support if you have questions.');
+ var COV = {'Warranty':['Under Warranty','#157347','#E7F6EC',1],'Goodwill':['Goodwill','#0B5ED7','#E6F0FF',1],'Non-Warranty':['Non-Warranty (chargeable)','#B54708','#FFF1DC',0]}[u.service_coverage];
+ var partsHtml = (u.parts && u.parts.length) ? u.parts.map(function (x) { return esc(x.item_code) + (x.item_name && x.item_name !== x.item_code ? ' (' + esc(x.item_name) + ')' : '') + (x.qty > 1 ? ' \u00d7 ' + esc(String(x.qty)) : ''); }).join('<br>') : '\u2014';
+ var qcPill = u.qc_result === 'Pass' ? '<span class="rd-soft" style="color:#157347;background:#E7F6EC;font-size:12.5px;padding:4px 10px;">' + IC.okc_s + 'Passed final testing</span>' : (u.qc_result === 'Fail' ? '<span class="rd-soft" style="color:#B42318;background:#FDECEC;font-size:12.5px;padding:4px 10px;">Failed testing</span>' : '');
+ var testHtml = (qcPill || u.customer_test_notes) ? qcPill + (u.customer_test_notes ? '<div style="margin-top:' + (qcPill ? '6' : '0') + 'px;">' + esc(u.customer_test_notes) + '</div>' : '') : '\u2014';
+ var warranty = COV ? '<span class="rd-soft" style="color:' + COV[1] + ';background:' + COV[2] + ';font-size:12.5px;padding:4px 10px;">' + (COV[3] ? IC.okc_s : '') + COV[0] + '</span>' : '';
+ html += '<div class="rd-gridu"><div>' +
+  '<div class="rd-card"><h3>Product Details</h3><div class="rd-top" style="grid-template-columns:1fr 1fr;gap:28px;margin:0;">' +
+   kv([['Item Code', esc(u.item_code || '\u2014')], ['Product Name', esc(u.actual_item_name || u.item_name || '\u2014')], ['Serial Number', esc(u.serial_display || u.customer_serial_lot_no || '\u2014')]].concat(u.other_identifier ? [['MAC / Other ID', esc(u.other_identifier)]] : []).concat([['Warranty Status', warranty || '\u2014']])) +
+   kv([[u.name ? 'RMA Unit No.' : 'Product No.', esc(String(u.unit_no || '\u2014')) + ' of ' + esc(String(u.unit_count)) + (u.qty > 1 ? ' (Qty ' + esc(String(u.qty)) + ')' : '')], ['Customer Ref.', esc(u.customer_reference || '\u2014')], ['Received Condition', esc(u.physical_condition || '\u2014')], ['Accessories Included', esc(u.accessories_received || p.accessories || '\u2014')], ['Location', esc(u.location || '\u2014')], ['Technician', esc(u.technician || '\u2014')]]) + '</div></div>' +
+  '<div class="rd-card"><div class="rd-cardhead"><h3>Attachments (' + (u.attachments || []).length + ')</h3></div>' + filesHtml(u.attachments) + '</div>' +
+  '<div class="rd-card"><h3>Messages (' + (u.messages || []).length + ')</h3>' + messagesHtml(u.messages) + '</div></div><div>' +
+  approveBox(u) +
+  '<div class="rd-card"><h3>Customer Reported Issue</h3><div class="rd-quote">' + IC.quote + '<span>' + esc(p.problem_description || '\u2014') + '</span></div></div>' +
+  '<div class="rd-card"><h3>Service Details</h3>' + kv([['Fault Found', esc(u.customer_visible_diagnosis || '\u2014')], ['Repair Action', esc(u.customer_work_performed || '\u2014')], ['Parts Used', partsHtml], ['Test Result', testHtml], ['Resolution', esc(u.resolution_explanation || u.resolution || '\u2014')]]) + '</div>' +
+  '<div class="rd-card"><h3>Activity Timeline</h3>' + timelineHtml(u.timeline || []) + '</div></div></div>';
+ document.getElementById('lp-rma-detail').innerHTML = html;
+ bindMenu(); bindApproveButtons(); bindMessageForm();
+}
+
+	function load() {
+		if (!rmaName) {
+			document.getElementById('lp-rma-detail').innerHTML = '<div class="lp-rma-section">RMA not specified.</div>';
+			return;
+		}
+		var url = isProduct
+			? '/api/method/lemco_portal.api.get_rma_unit?rma_name=' + encodeURIComponent(rmaName) + (unitName ? '&unit_name=' + encodeURIComponent(unitName) : '&item_name=' + encodeURIComponent(itemName))
+			: '/api/method/lemco_portal.api.get_rma?rma_name=' + encodeURIComponent(rmaName);
+		fetch(url)
+			.then(function (r) { if (!r.ok) throw new Error('not found'); return r.json(); })
+			.then(function (res) { isProduct ? renderUnitPage(res.message) : render(res.message); })
+			.catch(function () {
+				document.getElementById('lp-rma-detail').innerHTML = '<div class="lp-rma-section">This repair request could not be found.</div>';
+			});
+	}
+
+	load();
+})();
+</script>
+{% endblock %}

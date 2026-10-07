@@ -1,47 +1,164 @@
 {% extends "templates/web.html" %}
 
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
 {% block page_content %}
-<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css">
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css?v=19">
 <script>document.body.classList.add('lp-website-body');</script>
 
-<div class="lp-topbar">
-	<div class="lp-brand"><a href="/dashboard" style="color:inherit;text-decoration:none;">LEMCO <small>PORTAL</small></a></div>
-	<div class="lp-ext-links">
-		<a href="/dashboard">← Back to dashboard</a>
+<div class="lp-topnav">
+	<img class="lp-topnav-logo" src="/assets/lemco_portal/images/lemco-logo.png" alt="Lemco">
+	<div class="lp-topnav-right">
+		<a href="https://www.lemco.gr" target="_blank" rel="noopener">Lemco website</a>
+		<a href="https://www.fleex.gr" target="_blank" rel="noopener">Fleex website</a>
+		<div class="lp-avatar" id="lp-avatar">U<span class="lp-avatar-status"></span></div>
 	</div>
 </div>
 
-<div class="lp-page-wrap">
-	<h1>Upcoming Webinars</h1>
-	<div id="lp-webinars-full">Loading…</div>
+<div class="layout" style="display:flex;min-height:calc(100vh - 54px);">
+	<div class="lp-sidebar-backdrop" id="lp-sidebar-backdrop"></div>
+	<div class="sidebar" id="lp-sidebar" style="width:271px;background:#fff;border-right:1px solid var(--lp-border);padding:20px 0;display:flex;flex-direction:column;flex-shrink:0;">
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:8px 8px;">MAIN</div>
+		<a class="lp-nav-item" href="/dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a>
+		<a class="lp-nav-item" href="/helpdesk/tickets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>My tickets</a>
+		<a class="lp-nav-item" href="/repairs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 01-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 015.4-5.4l-3-3z"/></svg>My repairs</a>
+		<a class="lp-nav-item" href="/projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg>My projects</a>
+		<a class="lp-nav-item" href="/subscriptions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>My subscriptions</a>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">RESOURCES</div>
+		<a class="lp-nav-item lp-nav-active" href="/webinars"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>Webinars</a>
+		<a class="lp-nav-item" href="/helpdesk/kb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Knowledge base</a>
+		<a class="lp-nav-item" href="/lms/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 4 2 10l10 6 10-6z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>Academy</a>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">ADMIN</div>
+		<a class="lp-nav-item" href="/users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Users</a>
+
+		<div style="flex:1;"></div>
+		<div style="background:#F5F6F9;border-radius:12px;padding:16px;margin-top:20px;">
+			<strong style="font-size:14px;">Need help?</strong>
+			<p style="font-size:12px;color:var(--lp-muted);margin:4px 0 12px;">We're here for you.</p>
+			<a href="/helpdesk/tickets/new" style="display:block;text-align:center;background:#fff;border:1px solid var(--lp-border);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#1E2430;text-decoration:none;">Create a ticket</a>
+		</div>
+	</div>
+
+	<div style="flex:1;min-width:0;">
+		<div class="lp-topbar" style="justify-content:flex-start;">
+			<button class="lp-menu-toggle" id="lp-menu-toggle" aria-label="Open menu">☰</button>
+			<a href="/dashboard" style="margin-left:auto;font-size:13.5px;font-weight:600;text-decoration:none;color:#4A5266;">← Back to dashboard</a>
+		</div>
+
+		<div class="content" style="padding:28px;max-width:1400px;">
+			<div class="lp-webinars-hero">
+				<img class="lp-hero-img" src="/assets/lemco_portal/images/webinars-hero.png" alt="">
+				<h1>Upcoming Webinars</h1>
+				<p>Join live product sessions, training and demos hosted via Microsoft Teams.</p>
+			</div>
+
+			<div class="lp-webinar-grid" id="lp-webinars-full">Loading…</div>
+			<div class="lp-wpager" id="lp-wpager" style="display:none;">
+				<button id="lp-wprev">‹</button>
+				<button id="lp-wnext">›</button>
+			</div>
+		</div>
+	</div>
 </div>
+
+<div class="lp-app-footer">
+	<span>2026© LEMCO IKE. All rights reserved.</span>
+	<div class="lp-footer-links">
+		<a href="/privacy-policy">Privacy policy</a>
+		<a href="/terms-of-service">Terms of service</a>
+	</div>
+</div>
+
+<style>
+.lp-nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:#4A5266;font-size:14px;text-decoration:none;margin-bottom:2px;}
+.lp-nav-item svg{width:18px;height:18px;flex-shrink:0;stroke:#8891A0;}
+.lp-nav-item:hover{background:#F5F6F9;}
+.lp-nav-active{background:var(--lp-blue-light);color:var(--lp-blue);font-weight:600;}
+.lp-nav-active svg{stroke:var(--lp-blue);}
+.lp-register-btn[disabled]{opacity:.7;cursor:default;}
+</style>
 
 <script>
 (function () {
 	function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+	function initials(name) {
+		if (!name) return '?';
+		var parts = name.trim().split(/\s+/);
+		return ((parts[0][0] || '') + (parts[1] ? parts[1][0] : '')).toUpperCase();
+	}
 
-	function render(webinars) {
+	fetch('/api/method/lemco_portal.api.get_user_display_name')
+		.then(function (r) { return r.json(); })
+		.then(function (res) {
+			var name = (res.message || 'U').trim();
+			document.getElementById('lp-avatar').firstChild.textContent = name ? name[0].toUpperCase() : 'U';
+		})
+		.catch(function () { /* leave default 'U' */ });
+
+	var sidebar = document.getElementById('lp-sidebar');
+	var backdrop = document.getElementById('lp-sidebar-backdrop');
+	function closeSidebar() { sidebar.classList.remove('lp-sidebar-open'); backdrop.classList.remove('lp-sidebar-open'); }
+	document.getElementById('lp-menu-toggle').addEventListener('click', function () {
+		sidebar.classList.add('lp-sidebar-open');
+		backdrop.classList.add('lp-sidebar-open');
+	});
+	backdrop.addEventListener('click', closeSidebar);
+	sidebar.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeSidebar); });
+
+	var PAGE_SIZE = 6;
+	var page = 0;
+	var all = [];
+
+	function renderPage() {
 		var el = document.getElementById('lp-webinars-full');
-		if (!webinars.length) {
+		var pager = document.getElementById('lp-wpager');
+
+		if (!all.length) {
 			el.innerHTML = '<p style="color:var(--lp-muted);">No upcoming webinars right now — check back soon.</p>';
+			pager.style.display = 'none';
 			return;
 		}
-		el.innerHTML = webinars.map(function (w) {
-			return '<div class="lp-webinar-full">' +
-				'<div class="lp-date-box"><div class="lp-mon">' + new Date(w.webinar_date).toLocaleString('en', {month:'short'}).toUpperCase() + '</div>' +
-				'<div class="lp-day">' + new Date(w.webinar_date).getDate() + '</div></div>' +
-				'<div class="lp-webinar-info" style="flex:1;">' +
-					'<strong>' + esc(w.title) + '</strong>' +
-					'<p class="lp-desc">' + esc(w.description || '') + '</p>' +
-					'<div class="lp-tags">' +
-						(w.language ? '<span class="lp-tag">' + esc(w.language) + '</span>' : '') +
-						(w.speaker ? '<span class="lp-tag">' + esc(w.speaker) + '</span>' : '') +
-						(w.duration_minutes ? '<span class="lp-tag">' + w.duration_minutes + ' min</span>' : '') +
-					'</div>' +
+
+		var start = page * PAGE_SIZE;
+		var slice = all.slice(start, start + PAGE_SIZE);
+
+		el.innerHTML = slice.map(function (w) {
+			var d = new Date(w.webinar_date);
+			return '<div class="lp-wcard">' +
+				'<div class="lp-wcard-top">' +
+					'<div class="lp-date-box"><div class="lp-mon">' + d.toLocaleString('en', {month:'short'}).toUpperCase() + '</div><div class="lp-day">' + d.getDate() + '</div></div>' +
+					(w.members_only ? '<span class="lp-wcard-tag">Members only</span>' : '') +
 				'</div>' +
-				'<button class="lp-register-btn" data-webinar="' + esc(w.name) + '">Register</button>' +
+				'<h3>' + esc(w.title) + '</h3>' +
+				'<p class="lp-wcard-desc">' + esc(w.description || '') + '</p>' +
+				(w.speaker ? (
+					'<div class="lp-wcard-speaker">' +
+						(w.speaker_image
+							? '<img class="lp-speaker-avatar" src="' + esc(w.speaker_image) + '" alt="" style="object-fit:cover;">'
+							: '<div class="lp-speaker-avatar">' + initials(w.speaker) + '</div>') +
+						'<div><strong>' + esc(w.speaker) + '</strong><span>' + esc(w.speaker_role || '') + '</span></div>' +
+					'</div>'
+				) : '') +
+				'<div class="lp-wcard-meta">' +
+					(w.duration_minutes ? '<span>⏱ ' + w.duration_minutes + ' mins</span>' : '') +
+					(w.language ? '<span>🌐 ' + esc(w.language) + '</span>' : '') +
+				'</div>' +
+				'<div class="lp-wcard-foot">' +
+					'<span class="lp-wcard-teams">📹 Hosted on Microsoft Teams</span>' +
+					(w.registered
+						? '<button class="lp-register-btn" disabled>Registered ✓</button>'
+						: '<button class="lp-register-btn" data-webinar="' + esc(w.name) + '">Register</button>') +
+				'</div>' +
 			'</div>';
 		}).join('');
+
+		pager.style.display = all.length > PAGE_SIZE ? 'flex' : 'none';
+		document.getElementById('lp-wprev').disabled = page === 0;
+		document.getElementById('lp-wnext').disabled = start + PAGE_SIZE >= all.length;
 
 		el.querySelectorAll('[data-webinar]').forEach(function (btn) {
 			btn.addEventListener('click', function () {
@@ -56,7 +173,25 @@
 					},
 					body: JSON.stringify({ webinar: name }),
 				})
-					.then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.message || 'Could not register.'); return d; }); })
+					.then(function (r) {
+						return r.json().then(function (d) {
+							if (!r.ok) {
+								// Frappe puts validation-error text (frappe.throw) in
+								// _server_messages as a JSON-encoded array of JSON
+								// strings, not in a flat `message` field - pull the
+								// real reason out of there so the alert is useful.
+								var msg = d.message;
+								if (!msg && d._server_messages) {
+									try {
+										var parsed = JSON.parse(d._server_messages);
+										msg = JSON.parse(parsed[0]).message;
+									} catch (e) { /* fall through to default */ }
+								}
+								throw new Error(msg || 'Could not register.');
+							}
+							return d;
+						});
+					})
 					.then(function () {
 						btn.textContent = 'Registered ✓';
 					})
@@ -69,9 +204,12 @@
 		});
 	}
 
+	document.getElementById('lp-wprev').addEventListener('click', function () { if (page > 0) { page--; renderPage(); } });
+	document.getElementById('lp-wnext').addEventListener('click', function () { if ((page + 1) * PAGE_SIZE < all.length) { page++; renderPage(); } });
+
 	fetch('/api/method/lemco_portal.api.list_webinars')
 		.then(function (r) { return r.json(); })
-		.then(function (res) { render(res.message || []); })
+		.then(function (res) { all = res.message || []; renderPage(); })
 		.catch(function () {
 			document.getElementById('lp-webinars-full').innerHTML = '<p style="color:var(--lp-muted);">Could not load webinars.</p>';
 		});

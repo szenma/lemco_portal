@@ -1,0 +1,411 @@
+{% extends "templates/web.html" %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block page_content %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css?v=19">
+
+<script>
+document.body.classList.add('lp-website-body', 'lp-white-bg');
+</script>
+
+<div class="lp-login-screen">
+
+	<div class="lp-login-card">
+
+		<img
+			class="lp-login-logo-img"
+			src="/assets/lemco_portal/images/lemco-logo.png"
+			alt="Lemco"
+		>
+
+		<!-- REQUEST RESET -->
+		<div id="lp-reset-request">
+
+			<h1>Reset your password</h1>
+
+			<p class="lp-login-sub" id="lp-reset-request-msg">
+				Enter your email address and we'll send you a link to reset your password.
+			</p>
+
+			<form id="lp-reset-request-form">
+
+				<div class="lp-login-stack">
+
+					<div class="lp-login-field">
+						<input
+							type="email"
+							id="lp-reset-email"
+							placeholder="Email address"
+							required
+							autocomplete="email"
+						>
+					</div>
+
+				</div>
+
+				<div class="lp-login-buttons">
+
+					<button
+						type="submit"
+						class="lp-login-btn"
+						id="lp-reset-request-btn"
+					>
+						Send reset link
+					</button>
+
+					<a href="/login" class="lp-login-create">
+						Back to login
+					</a>
+
+				</div>
+
+			</form>
+
+		</div>
+
+
+		<!-- SET NEW PASSWORD -->
+		<div id="lp-reset-new" style="display:none;">
+
+			<h1>Choose a new password</h1>
+
+			<p class="lp-login-sub" id="lp-reset-new-msg">
+				Enter your new password below.
+			</p>
+
+			<form id="lp-reset-new-form">
+
+				<div class="lp-login-stack">
+
+					<div class="lp-login-field">
+						<input
+							type="password"
+							id="lp-new-password"
+							placeholder="New password"
+							required
+							autocomplete="new-password"
+						>
+					</div>
+
+					<div class="lp-login-field">
+						<input
+							type="password"
+							id="lp-confirm-password"
+							placeholder="Confirm password"
+							required
+							autocomplete="new-password"
+						>
+					</div>
+
+				</div>
+
+				<div class="lp-login-buttons">
+
+					<button
+						type="submit"
+						class="lp-login-btn"
+						id="lp-reset-new-btn"
+					>
+						Change password
+					</button>
+
+				</div>
+
+			</form>
+
+		</div>
+
+
+		<!-- SUCCESS -->
+		<div id="lp-reset-success" style="display:none;">
+
+			<h1>Password changed</h1>
+
+			<p class="lp-login-sub" style="color:#168A5B;">
+				Your password has been changed successfully.
+			</p>
+
+			<div class="lp-login-buttons">
+
+				<a href="/login" class="lp-login-create">
+					Continue to login
+				</a>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+<script>
+
+(function () {
+
+	var params = new URLSearchParams(window.location.search);
+	var resetKey = params.get('key');
+
+	var requestSection = document.getElementById('lp-reset-request');
+	var newPasswordSection = document.getElementById('lp-reset-new');
+	var successSection = document.getElementById('lp-reset-success');
+
+
+	/* ---------------------------------------------------------
+	   API helper
+	--------------------------------------------------------- */
+
+	function post(method, data) {
+
+		var body = new URLSearchParams();
+
+		Object.keys(data).forEach(function (key) {
+			body.append(key, data[key]);
+		});
+console.log(body.toString())
+		return fetch('/api/method/' + method, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: body.toString()
+		})
+		.then(function (response) {
+console.log(response)
+			return response.json().then(function (data) {
+
+				if (!response.ok) {
+
+					throw new Error(
+						(data && data.message) ||
+						'Unable to process your request.'
+					);
+
+				}
+
+				return data;
+			});
+
+		});
+
+	}
+
+
+	/* ---------------------------------------------------------
+	   Request reset
+	--------------------------------------------------------- */
+
+	document
+		.getElementById('lp-reset-request-form')
+		.addEventListener('submit', function (e) {
+
+			e.preventDefault();
+
+			var email =
+				document
+					.getElementById('lp-reset-email')
+					.value
+					.trim();
+
+			var btn =
+				document.getElementById('lp-reset-request-btn');
+
+			var msg =
+				document.getElementById('lp-reset-request-msg');
+
+			if (!email) {
+				return;
+			}
+
+			btn.disabled = true;
+			btn.textContent = 'Sending...';
+
+			msg.textContent = 'Please wait...';
+			msg.style.color = '';
+
+
+			post(
+				'lemco_portal.api.request_password_reset',
+				{
+					email: email
+				}
+			)
+			.then(function (data) {
+console.log(data.message.message)
+				msg.textContent =
+					(data.message.message) ||
+					'If an account exists for this email address, you will receive a password reset link shortly.';
+
+				msg.style.color = '#168A5B';
+
+				document
+					.getElementById('lp-reset-email')
+					.disabled = true;
+
+				btn.style.display = 'none';
+
+			})
+			.catch(function (err) {
+
+				msg.textContent =
+					err.message ||
+					'Unable to process the password reset request.';
+
+				msg.style.color = '#E23A5B';
+
+				btn.disabled = false;
+				btn.textContent = 'Send reset link';
+
+			});
+
+		});
+
+
+	/* ---------------------------------------------------------
+	   If key exists, validate it and show new password form
+	--------------------------------------------------------- */
+
+	if (resetKey) {
+
+		requestSection.style.display = 'none';
+		newPasswordSection.style.display = 'block';
+
+		var newMsg =
+			document.getElementById('lp-reset-new-msg');
+
+		newMsg.textContent = 'Checking your reset link...';
+
+
+		post(
+			'lemco_portal.api.validate_password_reset_key',
+			{
+				key: resetKey
+			}
+		)
+		.then(function (data) {
+console.log(data)
+			if (!data.message.valid) {
+
+				throw new Error(
+					data.message.message ||
+					'This password reset link is invalid or expired.'
+				);
+
+			}
+
+			newMsg.textContent =
+				'Enter your new password below.';
+
+		})
+		.catch(function (err) {
+
+			newMsg.textContent =
+				err.message ||
+				'This password reset link is invalid or expired.';
+
+			newMsg.style.color = '#E23A5B';
+
+			document
+				.getElementById('lp-reset-new-form')
+				.style.display = 'none';
+
+		});
+
+	}
+
+
+	/* ---------------------------------------------------------
+	   Set new password
+	--------------------------------------------------------- */
+
+	document
+		.getElementById('lp-reset-new-form')
+		.addEventListener('submit', function (e) {
+
+			e.preventDefault();
+
+			var password =
+				document
+					.getElementById('lp-new-password')
+					.value;
+
+			var confirmPassword =
+				document
+					.getElementById('lp-confirm-password')
+					.value;
+
+			var btn =
+				document.getElementById('lp-reset-new-btn');
+
+			var msg =
+				document.getElementById('lp-reset-new-msg');
+
+
+			if (password !== confirmPassword) {
+
+				msg.textContent =
+					'Passwords do not match.';
+
+				msg.style.color = '#E23A5B';
+
+				return;
+			}
+
+
+			if (!password) {
+
+				msg.textContent =
+					'Please enter a new password.';
+
+				msg.style.color = '#E23A5B';
+
+				return;
+			}
+
+
+			btn.disabled = true;
+			btn.textContent = 'Changing...';
+
+			msg.textContent = 'Please wait...';
+			msg.style.color = '';
+
+
+			post(
+				'lemco_portal.api.reset_password',
+				{
+					key: resetKey,
+					new_password: password
+				}
+			)
+			.then(function () {
+
+				newPasswordSection.style.display = 'none';
+				successSection.style.display = 'block';
+
+			})
+			.catch(function (err) {
+
+				msg.textContent =
+					err.message ||
+					'Unable to change your password.';
+
+				msg.style.color = '#E23A5B';
+
+				btn.disabled = false;
+				btn.textContent = 'Change password';
+
+			});
+
+		});
+
+})();
+
+</script>
+
+{% endblock %}

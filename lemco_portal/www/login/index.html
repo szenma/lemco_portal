@@ -1,32 +1,47 @@
 {% extends "templates/web.html" %}
 
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
 {% block page_content %}
-<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css?v=19">
+<script>document.body.classList.add('lp-website-body', 'lp-white-bg');</script>
 
 <div class="lp-login-screen">
-	<div class="lp-login-watermark"></div>
-
 	<div class="lp-login-card">
-		<div class="lp-login-logo">LEMCO<sup>®</sup></div>
+		<img class="lp-login-logo-img" src="/assets/lemco_portal/images/lemco-logo.png" alt="Lemco">
 
 		<h1>Welcome to Lemco Portal!</h1>
 		<p class="lp-login-sub" id="lp-login-msg">Please sign in to continue.</p>
 
 		<form id="lp-login-form">
-			<div class="lp-login-field">
-				<input type="text" id="lp-usr" placeholder="Username" required autocomplete="username">
+			<div class="lp-login-stack">
+				<div class="lp-login-field">
+					<input type="text" id="lp-usr" placeholder="Username" required autocomplete="username">
+				</div>
+				<div class="lp-login-field">
+					<input type="password" id="lp-pwd" placeholder="Password" required autocomplete="current-password">
+				</div>
 			</div>
-			<div class="lp-login-field">
-				<input type="password" id="lp-pwd" placeholder="Password" required autocomplete="current-password">
-				<span class="lp-eye" id="lp-toggle-pwd">👁</span>
-			</div>
+
+			<span class="lp-eye" id="lp-toggle-pwd">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+			</span>
 
 			<div class="lp-login-forgot"><a href="/reset-password">Forgot password?</a></div>
 
-			<button type="submit" class="lp-login-btn">Continue</button>
-		</form>
+			<div class="lp-login-buttons">
+				<button type="submit" class="lp-login-btn" id="lp-login-submit" disabled>Continue</button>
+				<a href="/create-account" class="lp-login-create">Create account</a>
+			</div>
 
-		<div class="lp-login-create"><a href="/create-account">Create account</a></div>
+			<div class="lp-login-agree">
+				<input type="checkbox" id="lp-agree-terms" required>
+				<label for="lp-agree-terms">I agree to the <a href="/terms-of-service" target="_blank">Terms of Service</a> and acknowledge that I have read the <a href="/privacy-policy" target="_blank">Privacy Policy</a>.</label>
+			</div>
+		</form>
 	</div>
 </div>
 
@@ -42,6 +57,12 @@
 	document.getElementById('lp-toggle-pwd').addEventListener('click', function () {
 		var pwd = document.getElementById('lp-pwd');
 		pwd.type = pwd.type === 'password' ? 'text' : 'password';
+	});
+
+	var agreeBox = document.getElementById('lp-agree-terms');
+	var submitBtn = document.getElementById('lp-login-submit');
+	agreeBox.addEventListener('change', function () {
+		submitBtn.disabled = !agreeBox.checked;
 	});
 
 	document.getElementById('lp-login-form').addEventListener('submit', function (e) {

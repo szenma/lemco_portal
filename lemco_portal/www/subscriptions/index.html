@@ -1,0 +1,212 @@
+{% extends "templates/web.html" %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block page_content %}
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css?v=19">
+<script>document.body.classList.add('lp-website-body');</script>
+
+<div class="lp-topnav">
+	<img class="lp-topnav-logo" src="/assets/lemco_portal/images/lemco-logo.png" alt="Lemco">
+	<div class="lp-topnav-right">
+		<a href="https://www.lemco.gr" target="_blank" rel="noopener">Lemco website</a>
+		<a href="https://www.fleex.gr" target="_blank" rel="noopener">Fleex website</a>
+		<div class="lp-avatar" id="lp-avatar">U<span class="lp-avatar-status"></span></div>
+	</div>
+</div>
+
+<div class="layout" style="display:flex;min-height:calc(100vh - 54px);">
+	<div class="lp-sidebar-backdrop" id="lp-sidebar-backdrop"></div>
+	<div class="sidebar" id="lp-sidebar" style="width:271px;background:#fff;border-right:1px solid var(--lp-border);padding:20px 0;display:flex;flex-direction:column;flex-shrink:0;">
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:8px 8px;">MAIN</div>
+		<a class="lp-nav-item" href="/dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a>
+		<a class="lp-nav-item" href="/helpdesk/tickets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>My tickets</a>
+		<a class="lp-nav-item" href="/repairs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 01-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 015.4-5.4l-3-3z"/></svg>My repairs</a>
+		<a class="lp-nav-item" href="/projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg>My projects</a>
+		<a class="lp-nav-item lp-nav-active" href="/subscriptions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>My subscriptions</a>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">RESOURCES</div>
+		<a class="lp-nav-item" href="/webinars"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>Webinars</a>
+		<a class="lp-nav-item" href="/helpdesk/kb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Knowledge base</a>
+		<a class="lp-nav-item" href="/lms/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 4 2 10l10 6 10-6z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>Academy</a>
+
+		<div class="lp-nav-label" style="font-size:11px;color:var(--lp-muted);font-weight:700;letter-spacing:1px;margin:18px 8px 8px;">ADMIN</div>
+		<a class="lp-nav-item" href="/users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Users</a>
+
+		<div style="flex:1;"></div>
+		<div style="background:#F5F6F9;border-radius:12px;padding:16px;margin-top:20px;">
+			<strong style="font-size:14px;">Need help?</strong>
+			<p style="font-size:12px;color:var(--lp-muted);margin:4px 0 12px;">We're here for you.</p>
+			<a href="/helpdesk/tickets/new" style="display:block;text-align:center;background:#fff;border:1px solid var(--lp-border);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#1E2430;text-decoration:none;">Create a ticket</a>
+		</div>
+	</div>
+
+	<div style="flex:1;min-width:0;">
+		<div class="lp-topbar" style="justify-content:flex-start;">
+			<button class="lp-menu-toggle" id="lp-menu-toggle" aria-label="Open menu">☰</button>
+		</div>
+
+		<div class="content" style="padding:28px;">
+			<div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 20px;flex-wrap:wrap;gap:10px;">
+				<h1 style="font-size:24px;margin:0;">My Subscriptions</h1>
+				<button id="lp-add-sub-btn" style="border:none;cursor:pointer;background:var(--lp-blue);color:#fff;padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:600;">+ New subscription</button>
+			</div>
+			<div class="lp-panel" id="lp-subscriptions-list">Loading…</div>
+		</div>
+	</div>
+</div>
+
+<div class="lp-app-footer">
+	<span>2026© LEMCO IKE. All rights reserved.</span>
+	<div class="lp-footer-links">
+		<a href="/privacy-policy">Privacy policy</a>
+		<a href="/terms-of-service">Terms of service</a>
+	</div>
+</div>
+
+<div id="lp-sub-modal" style="display:none;position:fixed;inset:0;background:rgba(20,24,33,.45);z-index:1000;align-items:center;justify-content:center;padding:16px;">
+	<div style="background:#fff;border-radius:14px;padding:24px;width:100%;max-width:420px;">
+		<h2 style="font-size:18px;margin:0 0 16px;">New subscription</h2>
+		<form id="lp-sub-form">
+			<label style="display:block;font-size:13px;font-weight:600;margin:0 0 4px;">Plan</label>
+			<select required name="plan" id="lp-sub-plan-select" style="width:100%;padding:9px 10px;border:1px solid var(--lp-border);border-radius:8px;margin-bottom:12px;">
+				<option value="">Loading plans…</option>
+			</select>
+			<label style="display:block;font-size:13px;font-weight:600;margin:0 0 4px;">Start date</label>
+			<input type="date" name="start_date" style="width:100%;padding:9px 10px;border:1px solid var(--lp-border);border-radius:8px;margin-bottom:16px;">
+			<div id="lp-sub-form-error" style="color:#E23A5B;font-size:12.5px;margin-bottom:12px;display:none;"></div>
+			<div style="display:flex;gap:10px;justify-content:flex-end;">
+				<button type="button" id="lp-sub-cancel" style="background:#F5F6F9;border:none;padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;">Cancel</button>
+				<button type="submit" style="background:var(--lp-blue);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<style>
+.lp-nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:#4A5266;font-size:14px;text-decoration:none;margin-bottom:2px;}
+.lp-nav-item svg{width:18px;height:18px;flex-shrink:0;stroke:#8891A0;}
+.lp-nav-item:hover{background:#F5F6F9;}
+.lp-nav-active{background:var(--lp-blue-light);color:var(--lp-blue);font-weight:600;}
+.lp-nav-active svg{stroke:var(--lp-blue);}
+.lp-record-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--lp-border);}
+.lp-record-row:last-child{border-bottom:none;}
+.lp-record-status{font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;}
+</style>
+
+<script>
+(function () {
+	function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+	fetch('/api/method/lemco_portal.api.get_user_display_name')
+		.then(function (r) { return r.json(); })
+		.then(function (res) {
+			var name = (res.message || 'U').trim();
+			document.getElementById('lp-avatar').firstChild.textContent = name ? name[0].toUpperCase() : 'U';
+		})
+		.catch(function () {});
+
+	var sidebar = document.getElementById('lp-sidebar');
+	var backdrop = document.getElementById('lp-sidebar-backdrop');
+	function closeSidebar() { sidebar.classList.remove('lp-sidebar-open'); backdrop.classList.remove('lp-sidebar-open'); }
+	document.getElementById('lp-menu-toggle').addEventListener('click', function () {
+		sidebar.classList.add('lp-sidebar-open');
+		backdrop.classList.add('lp-sidebar-open');
+	});
+	backdrop.addEventListener('click', closeSidebar);
+	sidebar.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeSidebar); });
+
+	function loadSubscriptions() {
+		fetch('/api/method/lemco_portal.api.list_my_subscriptions')
+			.then(function (r) { return r.json(); })
+			.then(function (res) {
+				var rows = res.message || [];
+				var el = document.getElementById('lp-subscriptions-list');
+				if (!rows.length) {
+					el.innerHTML = '<div class="lp-record-row"><span style="color:var(--lp-muted);">No subscriptions yet.</span></div>';
+					return;
+				}
+				el.innerHTML = rows.map(function (p) {
+					var statusColor = p.status === 'Active' ? '#34C759' : '#7C7C7C';
+					var statusBg = p.status === 'Active' ? 'rgba(52,199,89,.1)' : '#F1F2F5';
+					return '<div class="lp-record-row">' +
+						'<div><strong>' + esc(p.name) + '</strong>' +
+						(p.current_invoice_start ? '<div style="font-size:12.5px;color:var(--lp-muted);margin-top:2px;">Current period: ' + esc(p.current_invoice_start) + (p.current_invoice_end ? ' → ' + esc(p.current_invoice_end) : '') + '</div>' : '') +
+						'</div>' +
+						'<span class="lp-record-status" style="color:' + statusColor + ';background:' + statusBg + ';">' + esc(p.status) + '</span>' +
+						'</div>';
+				}).join('');
+			})
+			.catch(function () {
+				document.getElementById('lp-subscriptions-list').innerHTML = '<div class="lp-record-row"><span style="color:var(--lp-muted);">Could not load subscriptions.</span></div>';
+			});
+	}
+
+	var modal = document.getElementById('lp-sub-modal');
+	var form = document.getElementById('lp-sub-form');
+	var errorBox = document.getElementById('lp-sub-form-error');
+	var planSelect = document.getElementById('lp-sub-plan-select');
+
+	function openModal() {
+		errorBox.style.display = 'none';
+		form.reset();
+		modal.style.display = 'flex';
+		if (!planSelect.dataset.loaded) {
+			fetch('/api/method/lemco_portal.api.list_subscription_plans')
+				.then(function (r) { return r.json(); })
+				.then(function (res) {
+					var plans = res.message || [];
+					if (!plans.length) {
+						planSelect.innerHTML = '<option value="">No plans available</option>';
+						return;
+					}
+					planSelect.innerHTML = plans.map(function (p) {
+						return '<option value="' + esc(p.name) + '">' + esc(p.plan_name || p.name) +
+							(p.cost ? ' — ' + esc(p.currency || '') + p.cost : '') + '</option>';
+					}).join('');
+					planSelect.dataset.loaded = '1';
+				})
+				.catch(function () {
+					planSelect.innerHTML = '<option value="">Could not load plans</option>';
+				});
+		}
+	}
+	function closeModal() { modal.style.display = 'none'; }
+
+	document.getElementById('lp-add-sub-btn').addEventListener('click', openModal);
+	document.getElementById('lp-sub-cancel').addEventListener('click', closeModal);
+	modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+
+	form.addEventListener('submit', function (e) {
+		e.preventDefault();
+		errorBox.style.display = 'none';
+		var data = new FormData(form);
+		fetch('/api/method/lemco_portal.api.create_subscription', {
+			method: 'POST',
+			headers: { 'X-Frappe-CSRF-Token': (window.frappe && frappe.csrf_token) || '' },
+			body: data,
+		})
+			.then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+			.then(function (res) {
+				if (!res.ok) {
+					var msg = (res.body && res.body._server_messages) ? JSON.parse(res.body._server_messages)[0] : 'Could not create subscription.';
+					try { msg = JSON.parse(msg).message; } catch (e) {}
+					errorBox.textContent = msg;
+					errorBox.style.display = 'block';
+					return;
+				}
+				closeModal();
+				loadSubscriptions();
+			})
+			.catch(function () {
+				errorBox.textContent = 'Could not create subscription.';
+				errorBox.style.display = 'block';
+			});
+	});
+
+	loadSubscriptions();
+})();
+</script>
+{% endblock %}

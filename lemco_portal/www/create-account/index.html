@@ -1,56 +1,64 @@
 {% extends "templates/web.html" %}
 
-{% block page_content %}
-<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css">
-<script>document.body.classList.add('lp-website-body');</script>
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
 
-<div class="lp-topbar">
-	<div class="lp-brand">LEMCO <small>PORTAL</small></div>
-	<div class="lp-ext-links">
-		<a href="https://www.lemco.gr" target="_blank" rel="noopener">Lemco website</a>
-		<a href="https://www.fleex.gr" target="_blank" rel="noopener">Fleex website</a>
-	</div>
+{% block page_content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/lemco_portal/css/lemco_portal.css?v=19">
+<script>document.body.classList.add('lp-website-body', 'lp-white-bg');</script>
+
+<div class="lp-topbar" style="justify-content:flex-end;">
+	<a href="/login" style="color:#4A5266;font-size:13.5px;font-weight:600;text-decoration:none;">← Back to login</a>
 </div>
 
-<div class="lp-auth-wrap" style="max-width:560px;">
-	<div class="lp-auth-card">
-		<h1>Create your account</h1>
-		<p class="lp-sub">Tell us about you and your company. We'll email you once your account is approved.</p>
+<div class="lp-signup-wrap">
+	<div class="lp-signup-card">
+		<img class="lp-signup-logo" src="/assets/lemco_portal/images/lemco-logo.png" alt="Lemco">
 
-		<div class="lp-form-msg" id="lp-signup-msg"></div>
+		<h1>Create your account</h1>
+		<p class="lp-signup-sub" id="lp-signup-sub">Tell us about you and your company. We'll email you once your account is approved.</p>
+
+		<div class="lp-signup-msg" id="lp-signup-msg"></div>
 
 		<form id="lp-signup-form">
-			<div class="lp-section-label">Your details</div>
-			<div class="lp-form-2col">
-				<div class="lp-field"><label>Name *</label><input id="first_name" required></div>
-				<div class="lp-field"><label>Surname *</label><input id="last_name" required></div>
+			<div class="lp-signup-section">Your details</div>
+			<div class="lp-signup-2col">
+				<div class="lp-signup-field"><label>Name *</label><input id="first_name" required></div>
+				<div class="lp-signup-field"><label>Surname *</label><input id="last_name" required></div>
 			</div>
-			<div class="lp-form-2col">
-				<div class="lp-field"><label>Email *</label><input type="email" id="email" required></div>
-				<div class="lp-field"><label>Mobile Phone Number *</label><input id="mobile_no" required></div>
-			</div>
-
-			<div class="lp-section-label">Company details</div>
-			<div class="lp-field"><label>Company Name *</label><input id="company_name" required></div>
-			<div class="lp-form-2col">
-				<div class="lp-field"><label>TAX/VAT number</label><input id="tax_id"></div>
-				<div class="lp-field"><label>Website</label><input id="website" placeholder="https://"></div>
+			<div class="lp-signup-2col">
+				<div class="lp-signup-field"><label>Email *</label><input type="email" id="email" required></div>
+				<div class="lp-signup-field"><label>Mobile Phone Number *</label><input id="mobile_no" required></div>
 			</div>
 
-			<div class="lp-section-label">Billing address</div>
-			<div class="lp-field"><label>Address Title</label><input id="address_title" placeholder="Defaults to company name"></div>
-			<div class="lp-field"><label>Address Line 1 *</label><input id="address_line1" required></div>
-			<div class="lp-field"><label>Address Line 2</label><input id="address_line2"></div>
-			<div class="lp-form-2col">
-				<div class="lp-field"><label>ZIP code *</label><input id="pincode" required></div>
-				<div class="lp-field"><label>City/Town *</label><input id="city" required></div>
+			<div class="lp-signup-section">Company details</div>
+			<div class="lp-signup-field"><label>Company Name *</label><input id="company_name" required></div>
+			<div class="lp-signup-2col">
+				<div class="lp-signup-field"><label>TAX/VAT number</label><input id="tax_id"></div>
+				<div class="lp-signup-field"><label>Website</label><input id="website" placeholder="https://"></div>
 			</div>
-			<div class="lp-field"><label>Country *</label><input id="country" required></div>
 
-			<button type="submit" class="lp-btn-primary">Create account</button>
+			<div class="lp-signup-section">Billing address</div>
+			<div class="lp-signup-field"><label>Address Title</label><input id="address_title" placeholder="Defaults to company name"></div>
+			<div class="lp-signup-field"><label>Address Line 1 *</label><input id="address_line1" required></div>
+			<div class="lp-signup-field"><label>Address Line 2</label><input id="address_line2"></div>
+			<div class="lp-signup-2col">
+				<div class="lp-signup-field"><label>ZIP code *</label><input id="pincode" required></div>
+				<div class="lp-signup-field"><label>City/Town *</label><input id="city" required></div>
+			</div>
+			<div class="lp-signup-field"><label>Country *</label><input id="country" required></div>
+
+			<div class="lp-signup-agree">
+				<input type="checkbox" id="lp-signup-agree-terms" required>
+				<label for="lp-signup-agree-terms">I agree to the <a href="/terms-of-service" target="_blank">Terms of Service</a> and acknowledge that I have read the <a href="/privacy-policy" target="_blank">Privacy Policy</a>.</label>
+			</div>
+
+			<button type="submit" class="lp-signup-btn" id="lp-signup-submit" disabled>Create account</button>
 		</form>
 
-		<div class="lp-auth-foot">
+		<div class="lp-signup-foot">
 			Already have an account? <a href="/login">Log in</a>
 		</div>
 	</div>
@@ -58,10 +66,21 @@
 
 <script>
 (function () {
+	var signupAgree = document.getElementById('lp-signup-agree-terms');
+	var signupSubmit = document.getElementById('lp-signup-submit');
+	signupAgree.addEventListener('change', function () {
+		signupSubmit.disabled = !signupAgree.checked;
+	});
+
 	document.getElementById('lp-signup-form').addEventListener('submit', function (e) {
 		e.preventDefault();
 		var msg = document.getElementById('lp-signup-msg');
-		msg.className = 'lp-form-msg';
+		msg.className = 'lp-signup-msg';
+
+		if (signupSubmit.disabled) return; // already submitting - ignore a second click
+		signupSubmit.disabled = true;
+		var originalBtnText = signupSubmit.textContent;
+		signupSubmit.textContent = 'Creating account…';
 
 		var payload = {
 			first_name: document.getElementById('first_name').value,
@@ -90,22 +109,44 @@
 			.then(function (res) {
 				return res.json().then(function (data) {
 					if (!res.ok) {
-						throw new Error((data && data.exc_type ? data._server_messages : null) || data.message || 'Something went wrong.');
+						console.error('Signup failed:', data);
+						var readable = extractFrappeError(data);
+						throw new Error(readable);
 					}
 					return data;
 				});
 			})
 			.then(function () {
-				msg.className = 'lp-form-msg lp-success';
-				msg.textContent = "Account created! Check your email to confirm, then we'll activate your portal access shortly.";
+				msg.className = 'lp-signup-msg lp-success';
+				msg.textContent = "Account created successfully. Please check your email to confirm your address. Your portal access will be activated shortly after verification.";
 				document.getElementById('lp-signup-form').reset();
 				document.getElementById('lp-signup-form').style.display = 'none';
+				document.getElementById('lp-signup-sub').style.display = 'none';
 			})
 			.catch(function (err) {
-				msg.className = 'lp-form-msg lp-error';
+				msg.className = 'lp-signup-msg lp-error';
 				msg.textContent = err.message || 'Something went wrong. Please check your details and try again.';
+				signupSubmit.disabled = false;
+				signupSubmit.textContent = originalBtnText;
 			});
 	});
+
+	// Frappe error responses put the real message in _server_messages
+	// (a JSON-encoded array of JSON-encoded {message,...} objects) or in
+	// data.exception. This pulls out something a human can actually read -
+	// open the browser console to see the full raw response too.
+	function extractFrappeError(data) {
+		try {
+			if (data._server_messages) {
+				var msgs = JSON.parse(data._server_messages);
+				var first = JSON.parse(msgs[0]);
+				if (first.message) return first.message;
+			}
+		} catch (e) { /* fall through */ }
+		if (data.exception) return data.exception.split(':').pop().trim();
+		if (data.message) return data.message;
+		return 'Something went wrong. Please check your details and try again.';
+	}
 })();
 </script>
 {% endblock %}
